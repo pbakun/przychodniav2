@@ -1,0 +1,12 @@
+C:\Users\pbakun\source\repos\QueueSystem_v2\QueueSystem.Contract\obj\Debug\QueueSystem.Contract.csprojAssemblyReference.cache
+C:\Users\pbakun\source\repos\QueueSystem_v2\QueueSystem.Contract\obj\Debug\QueueSystem.Contract.csproj.CoreCompileInputs.cache
+C:\Users\pbakun\source\repos\QueueSystem_v2\QueueSystem.Contract\bin\Debug\QueueSystem.Contract.dll
+C:\Users\pbakun\source\repos\QueueSystem_v2\QueueSystem.Contract\bin\Debug\QueueSystem.Contract.pdb
+C:\Users\pbakun\source\repos\QueueSystem_v2\QueueSystem.Contract\obj\Debug\QueueSystem.Contract.dll
+C:\Users\pbakun\source\repos\QueueSystem_v2\QueueSystem.Contract\obj\Debug\QueueSystem.Contract.pdb
+D:\Moje\C#\Przychodnia\QueueSystem_v2\QueueSystem.Contract\bin\Debug\QueueSystem.Contract.dll
+D:\Moje\C#\Przychodnia\QueueSystem_v2\QueueSystem.Contract\bin\Debug\QueueSystem.Contract.pdb
+D:\Moje\C#\Przychodnia\QueueSystem_v2\QueueSystem.Contract\obj\Debug\QueueSystem.Contract.csprojAssemblyReference.cache
+D:\Moje\C#\Przychodnia\QueueSystem_v2\QueueSystem.Contract\obj\Debug\QueueSystem.Contract.csproj.CoreCompileInputs.cache
+D:\Moje\C#\Przychodnia\QueueSystem_v2\QueueSystem.Contract\obj\Debug\QueueSystem.Contract.dll
+D:\Moje\C#\Przychodnia\QueueSystem_v2\QueueSystem.Contract\obj\Debug\QueueSystem.Contract.pdb
