@@ -23,7 +23,16 @@ namespace QueueSystem.Contract
         public string QueueNoMessage {
             get
             {
-                return UserInitials + QueueNo.ToString();
+                if(QueueNo > 0)
+                {
+                    return UserInitials + QueueNo.ToString();
+                }
+                else if(QueueNo == -1)
+                {
+                    return "Przerwa";
+                }
+                return string.Empty;
+                
             }
         }
 

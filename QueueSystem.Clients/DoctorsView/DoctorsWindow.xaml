@@ -20,6 +20,14 @@
             <Setter Property="BorderBrush" Value="SeaGreen"/>
             <Setter Property="BorderThickness" Value="2"/>
         </Style>
+        
+        <ContextMenu x:Key="OptionsContextMenu">
+            <MenuItem Header="Connect" Command="{Binding _connectCommand}"/>
+            <MenuItem Header="Rozłącz" Command="{Binding _disconnectCommand}"/>
+            <Separator/>
+            <MenuItem Header="Parametry"/>
+        </ContextMenu>
+
         <vm:DoctorsWindowVM x:Key="vm"/>
     </Window.Resources>
 
@@ -55,14 +63,14 @@
                Margin="5"
                Grid.Column="6"
                Grid.ColumnSpan="2"/>
-        <Button x:Name="connectToService"
-                Content="Connect"
-                Click="ConnectToService_Click"
+        <Button Click="Show_Options_ContextMenu"
+                Margin="7"
+                Content="Opcje"
                 Background="Transparent"
                 Focusable="False"
                 Grid.Column="6"
                 Grid.ColumnSpan="1"/>
-        
+
         <Label Content="System Kolejkowy"
                Style="{StaticResource LabelAlignmentInGrid}"
                FontSize="20"
@@ -77,23 +85,26 @@
                Grid.Column="2"
                VerticalAlignment="Center"
                Grid.Row="2"/>
-        <Button x:Name="nextPerson" 
-                Click="NextPerson_Click"
+        <Button x:Name="nextPerson"
+                Command="{Binding Source={StaticResource vm}, Path=_nextPersonCommand}"
+                CommandParameter="{Binding Path=_queueData.ConnectionEstablished}"
                 Content="Next"
                 Style="{StaticResource ButtonStyle}"
                 Margin="50 0 0 0"
                 Grid.Column="3"
                 Grid.Row="2"/>
         <Button x:Name="previousPerson"
-                Click="PreviousPerson_Click"
+                Command="{Binding Source={StaticResource vm}, Path=_breakCommand}"
+                CommandParameter="{Binding Path=_queueData.ConnectionEstablished}"
                 Content="Prev"
                 Style="{StaticResource ButtonStyle}"
                 Margin="0 0 50 0"
                 Grid.Column="3"
                 Grid.Row="2"/>
         <Button x:Name="breakBtn"
+                Command="{Binding Source={StaticResource vm}, Path=_breakCommand}"
+                CommandParameter="{Binding Path=_queueData.ConnectionEstablished}"
                 Content="Przerwa"
-                Click="BreakBtn_Click"
                 Style="{StaticResource ButtonStyle}"
                 Grid.Column="4"
                 Grid.Row="2"/>
@@ -103,13 +114,14 @@
                Grid.Column="1"
                Grid.Row="3"/>
         <TextBox x:Name="forceQueueNoTextBox"
+                 Text="{Binding _temporary.NewNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  PreviewTextInput="NumberValidation_PreviewTextBox"
-                 KeyDown="ForceQueueNoTextBox_KeyDown"
                  Margin="5"
                  Grid.Column="2"
                  Grid.Row="3"/>
         <Button x:Name="forceQueueSubmitBtn"
-                Click="ForceQueueSubmitBtn_Click"
+                Command="{Binding Source={StaticResource vm}, Path=_forceNewPersonCommand}"
+                CommandParameter="{Binding Path=_queueData.ConnectionEstablished}"
                 Content="Nadpisz!"
                 Style="{StaticResource ButtonStyle}"
                 Margin="5"
@@ -129,13 +141,11 @@
                    Grid.ColumnSpan="3"
                    Grid.RowSpan="2"/>
         <Button x:Name="clearAddMessageBtn"
-                Click="ClearAddMessageBtn_Click"
                 Content="Wyczyść"
                 Style="{StaticResource ButtonStyle}"
                 Grid.Column="4"
                 Grid.Row="7"/>
         <Button x:Name="sendAddMessageSubmitBtn"
-                Click="SendAddMessageSubmitBtn_Click"
                 Content="Wyślij!"
                 Style="{StaticResource ButtonStyle}"
                 Grid.Column="4"

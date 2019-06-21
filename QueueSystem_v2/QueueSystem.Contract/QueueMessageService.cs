@@ -104,7 +104,6 @@ namespace QueueSystem.Contract
         {
             IQueueMessageCallback registeredUser = OperationContext.Current.GetCallbackChannel<IQueueMessageCallback>();
 
-            
             _queueData.QueueNo = queueNo;
             _queueData.UserInitials = userInitials;
 
