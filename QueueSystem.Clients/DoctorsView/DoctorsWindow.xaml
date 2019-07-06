@@ -9,6 +9,8 @@
         Title="SystemKolejkowy" Height="450" Width="800">
 
     <Window.Resources>
+        <vm:DoctorsWindowVM x:Key="vm"/>
+        
         <Style TargetType="Label" x:Key="LabelAlignmentInGrid">
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -20,7 +22,14 @@
             <Setter Property="BorderBrush" Value="SeaGreen"/>
             <Setter Property="BorderThickness" Value="2"/>
         </Style>
-        
+
+        <Style TargetType="ToggleButton" x:Key="ToggleButtonStyle">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Background" Value="LavenderBlush"/>
+            <Setter Property="BorderBrush" Value="SeaGreen"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
+
         <ContextMenu x:Key="OptionsContextMenu">
             <MenuItem Header="Connect" Command="{Binding _connectCommand}"/>
             <MenuItem Header="Rozłącz" Command="{Binding _disconnectCommand}"/>
@@ -28,7 +37,7 @@
             <MenuItem Header="Parametry"/>
         </ContextMenu>
 
-        <vm:DoctorsWindowVM x:Key="vm"/>
+        
     </Window.Resources>
 
     <Grid DataContext="{StaticResource vm}">
@@ -94,18 +103,19 @@
                 Grid.Column="3"
                 Grid.Row="2"/>
         <Button x:Name="previousPerson"
-                Command="{Binding Source={StaticResource vm}, Path=_breakCommand}"
+                Command="{Binding Source={StaticResource vm}, Path=_previousPersonCommand}"
                 CommandParameter="{Binding Path=_queueData.ConnectionEstablished}"
                 Content="Prev"
                 Style="{StaticResource ButtonStyle}"
                 Margin="0 0 50 0"
                 Grid.Column="3"
                 Grid.Row="2"/>
-        <Button x:Name="breakBtn"
+        <ToggleButton x:Name="breakBtn"
                 Command="{Binding Source={StaticResource vm}, Path=_breakCommand}"
                 CommandParameter="{Binding Path=_queueData.ConnectionEstablished}"
+                IsChecked="{Binding ViewData.IsBreak}"
                 Content="Przerwa"
-                Style="{StaticResource ButtonStyle}"
+                Style="{StaticResource ToggleButtonStyle}"
                 Grid.Column="4"
                 Grid.Row="2"/>
 
@@ -114,11 +124,16 @@
                Grid.Column="1"
                Grid.Row="3"/>
         <TextBox x:Name="forceQueueNoTextBox"
-                 Text="{Binding _temporary.NewNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding ViewData.NewNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  PreviewTextInput="NumberValidation_PreviewTextBox"
                  Margin="5"
                  Grid.Column="2"
-                 Grid.Row="3"/>
+                 Grid.Row="3">
+            <TextBox.InputBindings>
+                <KeyBinding Key="Return"
+                            Command="{Binding Source={StaticResource vm}, Path=_forceNewPersonCommand}"/>
+            </TextBox.InputBindings>
+        </TextBox>
         <Button x:Name="forceQueueSubmitBtn"
                 Command="{Binding Source={StaticResource vm}, Path=_forceNewPersonCommand}"
                 CommandParameter="{Binding Path=_queueData.ConnectionEstablished}"
@@ -139,13 +154,31 @@
                    Grid.Column="1"
                    Grid.Row="7"
                    Grid.ColumnSpan="3"
-                   Grid.RowSpan="2"/>
+                   Grid.RowSpan="2">
+            <RichTextBox.Style>
+                <Style TargetType="RichTextBox">
+                    <Style.Triggers>
+                        
+                    </Style.Triggers>
+                </Style>
+            </RichTextBox.Style>
+            <FlowDocument>
+                <Paragraph>
+
+                    <Run Text="{Binding ViewData.AdditionalMessageHelper}"
+                         Foreground="{Binding ViewData.AdditionalMessageFont}">
+                    </Run>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
         <Button x:Name="clearAddMessageBtn"
+                Command="{Binding _clearRichTextBoxCommand}"
                 Content="Wyczyść"
                 Style="{StaticResource ButtonStyle}"
                 Grid.Column="4"
                 Grid.Row="7"/>
         <Button x:Name="sendAddMessageSubmitBtn"
+                Command="{Binding _sendAdditionalMessageCommand}"
                 Content="Wyślij!"
                 Style="{StaticResource ButtonStyle}"
                 Grid.Column="4"

@@ -17,6 +17,7 @@ namespace DoctorsView.Utility
         private string _additionalMessage;
         private string _owner;
         private bool _connectionEstablished;
+        private bool _isBreak;
 
         public QueueDataBuilder()
         {
@@ -32,6 +33,7 @@ namespace DoctorsView.Utility
             _additionalMessage = string.Empty;
             _owner = string.Empty;
             _connectionEstablished = false;
+            _isBreak = false;
         }
 
         public QueueDataBuilder WithQueueNo(int queueNo)
@@ -80,7 +82,9 @@ namespace DoctorsView.Utility
                 Timestamp = _timestamp,
                 AdditionalMessage = _additionalMessage,
                 Owner = _owner,
+                IsBreak = _isBreak,
                 ConnectionEstablished = _connectionEstablished
+                
             };
 
             return queueData;

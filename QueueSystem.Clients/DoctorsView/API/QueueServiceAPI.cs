@@ -68,19 +68,28 @@ namespace DoctorsView.API
 
             }
 
-            
+
         }
 
-        public void Disconnect()
+        public void CloseConnection()
         {
+            _QueueMessage.Close();
+        }
+
+        //is sets to true to disconnect when window is closing
+        public void Disconnect(bool connectionStatus = false)
+        {
+            if (!connectionStatus)
+                connectionStatus = QueueData.ConnectionEstablished;
+
             try
             {
-                if (QueueData.ConnectionEstablished)
+                if (connectionStatus)
                 {
                     _QueueMessage.Disconnect(User.Id, User.Login);
                     QueueData.ConnectionEstablished = false;
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -101,37 +110,48 @@ namespace DoctorsView.API
             if (QueueData.ConnectionEstablished)
             {
                 QueueData.QueueNo++;
+                QueueData.IsBreak = false;
                 _QueueMessage.ReceiveQueueNo(User.Id, QueueData.QueueNo, QueueData.UserInitials);
             }
         }
 
         public void PreviousPerson()
         {
-            if (QueueData.ConnectionEstablished && QueueData.QueueNo>1)
+            if (QueueData.ConnectionEstablished && QueueData.QueueNo > 1)
             {
                 QueueData.QueueNo--;
+                QueueData.IsBreak = false;
                 _QueueMessage.ReceiveQueueNo(User.Id, QueueData.QueueNo, QueueData.UserInitials);
             }
         }
 
-        //TODO
         public void ForceNewQueueNo(string number)
         {
             if (QueueData.ConnectionEstablished)
             {
                 string newQueueNo = number;
                 newQueueNo.Replace(" ", string.Empty);
-                QueueData.QueueNo = Convert.ToInt32(newQueueNo);
-                _QueueMessage.ReceiveQueueNo(User.Id, QueueData.QueueNo, QueueData.UserInitials);
+                int newNumber = Convert.ToInt32(newQueueNo);
+
+                _QueueMessage.ReceiveQueueNo(User.Id, newNumber, QueueData.UserInitials);
+
+                if (newQueueNo == "-1")
+                {
+                    QueueData.IsBreak = true;
+                }
+                else
+                {
+                    QueueData.QueueNo = newNumber;
+                    QueueData.IsBreak = false;
+                }
             }
         }
 
-        //TODO
-        public void SendAdditionalMessage()
+        public void SendAdditionalMessage(string additionalMessage)
         {
             if (QueueData.ConnectionEstablished)
             {
-                //QueueData.AdditionalMessage = additionalMessage;
+                QueueData.AdditionalMessage = additionalMessage;
                 _QueueMessage.ReceiveAdditionalMessage(User.Id, QueueData.AdditionalMessage);
             }
         }
@@ -150,13 +170,19 @@ namespace DoctorsView.API
                 QueueData.Owner = state.ToString();
                 QueueData.ConnectionEstablished = true;
             };
-            
+
             _uiSyncContext.Post(callback, userName);
         }
 
         public void NotifyOfReceivedAdditionalMessage(string additionalMessage)
         {
-            throw new NotImplementedException();
+            SendOrPostCallback callback = delegate (object state)
+            {
+
+            };
+            QueueData.AdditionalMessage = additionalMessage;
+
+            _uiSyncContext.Post(callback, additionalMessage);
         }
 
         public void NotifyOfReceivedQueueNo(string queueNoMessage)

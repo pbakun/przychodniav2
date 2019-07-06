@@ -85,6 +85,8 @@ namespace QueueSystem.Contract
 
             _queueData.AdditionalMessage = additionalMessage;
 
+            Console.WriteLine("Additional message: {0}", additionalMessage);
+
             try
             {
                 _callbackList.Select(c => c.RegisteredUser).ToList().ForEach(

@@ -74,7 +74,7 @@ namespace DoctorsView
             //if (user.Id != 0)
             //{
             //DoctorsWindow doctorsWindow = new DoctorsWindow(user.Id);
-            DoctorsWindow doctorsWindow = new DoctorsWindow(1);
+            DoctorsWindow doctorsWindow = new DoctorsWindow();
             doctorsWindow.Show();
                 this.Close();
             //}

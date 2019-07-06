@@ -30,34 +30,28 @@ namespace DoctorsView
     {
         private readonly User _user;
 
+        private DoctorsWindowVM VM = new DoctorsWindowVM();
 
-        public DoctorsWindow(int id)
+        public DoctorsWindow()
         {
             InitializeComponent();
 
             using (SQLiteConnection connection = new SQLiteConnection(StaticDetails.userDatabasePath))
             {
-                _user = connection.Table<User>().Where(u => u.Id == id).FirstOrDefault();
-                userInfoLabel.Content = "Witaj " + _user.FirstName + " " + _user.LastName;
+                // _user = connection.Table<User>().Where(u => u.Id == id).FirstOrDefault();
+                // userInfoLabel.Content = "Witaj " + _user.FirstName + " " + _user.LastName;
                 //_queueData.UserInitials = _user.FirstName.FirstOrDefault().ToString() + _user.LastName.FirstOrDefault();
             }
 
             //Initialize WCF Communication
             //this.ContentRendered += DoctorsWindow_ContentRendered;
-            this.Closing += DoctorsWindow_Closing;
-            
-
+            this.Closing += DoctorsWindow_Closing1;
         }
 
-        private void DoctorsWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void DoctorsWindow_Closing1(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            IClosing context = DataContext as IClosing;
-            if(context != null)
-            {
-                e.Cancel = !context.OnClosing();
-            }
+            VM.WindowClosing();
         }
-
 
         //PrevievInputText event handler - passes only numeric input
         private void NumberValidation_PreviewTextBox(object sender, TextCompositionEventArgs e)

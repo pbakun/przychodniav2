@@ -76,19 +76,20 @@
     </ApplicationDefinition>
     <Compile Include="API\QueueServiceAPI.cs" />
     <Compile Include="Commands\BreakCommand.cs" />
+    <Compile Include="Commands\ClearRichTextBoxCommand.cs" />
     <Compile Include="Commands\ConnectCommand.cs" />
     <Compile Include="Commands\DisconnectCommand.cs" />
     <Compile Include="Commands\ForceNewPersonCommand.cs" />
     <Compile Include="Commands\NextPersonCommand.cs" />
     <Compile Include="Commands\PreviousPersonCommand.cs" />
+    <Compile Include="Commands\SendAdditionalMessageCommand.cs" />
     <Compile Include="Connected Services\QueueSystemServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\IClosing.cs" />
     <Compile Include="Models\QueueData.cs" />
-    <Compile Include="Models\Temporary.cs" />
+    <Compile Include="Models\DoctorsViewData.cs" />
     <Compile Include="Utility\QueueDataBuilder.cs" />
     <Compile Include="Utility\StaticDetails.cs" />
     <Compile Include="ViewModels\DoctorsWindowVM.cs" />
@@ -176,6 +177,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Interfaces\" />
     <Folder Include="Public\Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

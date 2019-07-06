@@ -121,6 +121,19 @@ namespace DoctorsView.Models
             }
         }
 
+        private bool _isBreak;
+
+        public bool IsBreak
+        {
+            get { return _isBreak; }
+            set
+            {
+                _isBreak = value;
+                OnPropertyChange(nameof(IsBreak));
+            }
+        }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChange(string propertyName)
