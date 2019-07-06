@@ -1,5 +1,4 @@
-﻿using DoctorsView.Interfaces;
-using DoctorsView.Models;
+﻿using DoctorsView.Models;
 using DoctorsView.QueueSystemServiceReference;
 using DoctorsView.Utility;
 using DoctorsView.ViewModels;

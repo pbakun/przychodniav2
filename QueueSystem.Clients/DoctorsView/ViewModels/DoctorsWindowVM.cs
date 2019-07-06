@@ -1,6 +1,5 @@
 ﻿using DoctorsView.API;
 using DoctorsView.Commands;
-using DoctorsView.Interfaces;
 using DoctorsView.Models;
 using DoctorsView.Utility;
 using System;
