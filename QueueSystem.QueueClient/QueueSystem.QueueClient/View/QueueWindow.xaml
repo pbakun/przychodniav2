@@ -1,0 +1,124 @@
+﻿<Window x:Class="QueueSystem.QueueClient.View.QueueWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QueueSystem.QueueClient.View"
+        xmlns:vm="clr-namespace:QueueSystem.QueueClient.ViewModel"
+        xmlns:uc="clr-namespace:QueueSystem.QueueClient.View.UserControls"
+        mc:Ignorable="d"
+        Title="QueueWindow" Height="600" Width="800">
+    <Window.Resources>
+        <vm:QueueVM x:Key="vm"/>
+    </Window.Resources>
+
+
+    <DockPanel DataContext="{StaticResource vm}">
+        <ToolBar x:Name="toolbarMenu"
+            DockPanel.Dock="Top" 
+                 Height="10" Background="Transparent">
+
+            <MenuItem Header="Options" 
+                    ToolBar.OverflowMode="Always"/>
+            <MenuItem Header="Fullscreen"
+                      Click="FullscreenBtn_Click"
+                      IsCheckable="True"
+                      ToolBar.OverflowMode="Always"/>
+
+            <!--make connect/disconnect on one btn-->
+            <MenuItem Header="Connect"
+                      Command="{Binding _connectCommand}"
+                      Click="ConnectMenuItem_Click"
+                      ToolBar.OverflowMode="Always"/>
+            <MenuItem Header="Disconnect"
+                      Command="{Binding _disconnectCommand}"
+                      ToolBar.OverflowMode="Always"/>
+
+
+        </ToolBar>
+
+        <StatusBar DockPanel.Dock="Bottom" Visibility="{Binding QueueView.AdditionalMessageBarVisibility}">
+            <StatusBarItem DataContext="{Binding QueueView}">
+                <TextBlock Text="{Binding AdditionalMessage}"
+                           FontSize="25"
+                           />
+            </StatusBarItem>
+        </StatusBar>
+        <!--<Viewbox StretchDirection="Both" Stretch="Uniform">-->
+        <Grid DockPanel.Dock="Top" >
+            <!--Height="150"
+                   Width="400"-->
+            <Image 
+                   HorizontalAlignment="Left"
+                   Grid.ColumnSpan="2">
+                <Image.Source>
+                    <BitmapImage UriSource="/Images/logo_NFZ.png"/>
+                </Image.Source>
+            </Image>
+
+            <TextBlock Text="Lek. med. Aleksandra Bakun"
+                       FontSize="30"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Grid.Row="1"
+                       Grid.Column="2"
+                       Grid.ColumnSpan="4"/>
+
+            <TextBlock Text="Następny pacjent"
+                       FontSize="45"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Grid.Row="2"
+                       Grid.Column="2"
+                       Grid.ColumnSpan="4"
+                       />
+
+            <TextBlock Text="{Binding QueueView.QueueNoMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}"
+                       TargetUpdated="TextBlockFontSizeControl_TargetUpdated"
+                       FontWeight="UltraLight"
+                       FontSize="200"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Grid.Row="3"
+                       Grid.RowSpan="3"
+                       Grid.Column="1"
+                       Grid.ColumnSpan="6"/>
+            <!--Width="400"
+                       Height="250"-->
+            <Image 
+                       HorizontalAlignment="Right"
+                        Grid.Column="6"
+                        Grid.ColumnSpan="2"
+                        Grid.Row="6"
+                        Grid.RowSpan="2">
+                <Image.Source>
+                    <BitmapImage UriSource="/Images/szybka_terapia_onkologiczna_CMYK_A4.jpg"/>
+                </Image.Source>
+            </Image>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+        </Grid>
+        <!--</Viewbox>-->
+
+    </DockPanel>
+    
+</Window>

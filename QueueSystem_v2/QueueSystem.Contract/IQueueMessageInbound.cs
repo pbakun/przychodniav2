@@ -16,7 +16,7 @@ namespace QueueSystem.Contract
     {
 
         [OperationContract]
-        int Connect(int userId, string userName);
+        int Connect(int userId, int roomNo, string userName, bool isSender = false);
 
         [OperationContract(IsOneWay = true)]
         void ReceiveQueueNo(int userId, int queueNo, string userInitials);
@@ -26,5 +26,8 @@ namespace QueueSystem.Contract
 
         [OperationContract]
         int Disconnect(int userId, string userName);
+
+        [OperationContract]
+        void GetQueueData(int? userId = null, int? roomNo = null);
     }
 }

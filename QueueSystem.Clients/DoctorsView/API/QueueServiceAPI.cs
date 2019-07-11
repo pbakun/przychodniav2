@@ -31,6 +31,7 @@ namespace DoctorsView.API
             QueueData = _queueData;
             User = _user;
             InitializeConnection();
+            
         }
 
         private void InitializeConnection()
@@ -73,7 +74,7 @@ namespace DoctorsView.API
 
         public void CloseConnection()
         {
-            _QueueMessage.Close();
+                _QueueMessage.Close();
         }
 
         //is sets to true to disconnect when window is closing
@@ -101,7 +102,8 @@ namespace DoctorsView.API
         {
             if (!QueueData.ConnectionEstablished)
             {
-                await _QueueMessage.ConnectAsync(User.Id, User.Login);
+                await _QueueMessage.ConnectAsync(User.Id, QueueData.RoomNo, User.Login, true);
+                await _QueueMessage.GetQueueDataAsync(User.Id, null);
             }
         }
 
@@ -167,8 +169,11 @@ namespace DoctorsView.API
         {
             SendOrPostCallback callback = delegate (object state)
             {
-                QueueData.Owner = state.ToString();
-                QueueData.ConnectionEstablished = true;
+                if(state.ToString() == User.Login)
+                {
+                    QueueData.Owner = state.ToString();
+                    QueueData.ConnectionEstablished = true;
+                }
             };
 
             _uiSyncContext.Post(callback, userName);
@@ -185,14 +190,26 @@ namespace DoctorsView.API
             _uiSyncContext.Post(callback, additionalMessage);
         }
 
-        public void NotifyOfReceivedQueueNo(string queueNoMessage)
+        public void NotifyOfReceivedQueueNo(string queueNo)
         {
             SendOrPostCallback callback = delegate (object state)
             {
 
             };
-            QueueData.QueueNoMessage = queueNoMessage;
-            _uiSyncContext.Post(callback, queueNoMessage);
+            QueueData.QueueNoMessage = queueNo;
+            _uiSyncContext.Post(callback, queueNo);
+        }
+
+        public void NotifyClientWithQueueData(QueueSystemServiceReference.QueueData queue)
+        {
+            SendOrPostCallback callback = delegate (object state)
+            {
+
+            };
+            QueueData.QueueNo = queue.QueueNo;
+            QueueData.QueueNoMessage = queue.QueueNoMessage;
+            QueueData.AdditionalMessage = queue.AdditionalMessage;
+            _uiSyncContext.Post(callback, queue);
         }
 
         #endregion

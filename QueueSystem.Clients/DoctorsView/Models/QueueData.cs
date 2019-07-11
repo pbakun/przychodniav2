@@ -65,8 +65,8 @@ namespace DoctorsView.Models
             }
         }
 
-        private string _roomNo;
-        public string RoomNo
+        private int _roomNo;
+        public int RoomNo
         {
             get
             {

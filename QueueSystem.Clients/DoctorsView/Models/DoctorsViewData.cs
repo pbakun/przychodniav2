@@ -33,9 +33,9 @@ namespace DoctorsView.Models
             set
             {
                 _additionalMessageHelper = value;
+                OnPropertyChange(nameof(AdditionalMessageHelper));
                 //sets black font with every change
                 AdditionalMessageFont = Brushes.Black;
-                OnPropertyChange(nameof(AdditionalMessageHelper));
             }
         }
 
@@ -63,11 +63,22 @@ namespace DoctorsView.Models
             }
         }
 
+        private string _queueNoMessage;
 
+        public string QueueNoMessage
+        {
+            get { return _queueNoMessage; }
+            set
+            {
+                _queueNoMessage = value;
+                OnPropertyChange(nameof(QueueNoMessage));
+            }
+        }
 
         public DoctorsViewData(QueueData _queueData)
         {
             QueueData = _queueData;
+            AdditionalMessageHelper = string.Empty;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

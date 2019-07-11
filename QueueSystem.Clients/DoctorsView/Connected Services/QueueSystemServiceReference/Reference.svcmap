@@ -22,11 +22,12 @@
     <MetadataSource Address="http://localhost:6666/QueueMessageService" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="QueueMessageService.xsd" MetadataType="Schema" ID="848f560a-bbde-485a-bdf4-2ddf0e8d87df" SourceId="1" SourceUrl="http://localhost:6666/QueueMessageService?xsd=xsd0" />
-    <MetadataFile FileName="QueueMessageService.disco" MetadataType="Disco" ID="927ecb02-6b88-4ca9-b87e-181b03ab0dbe" SourceId="1" SourceUrl="http://localhost:6666/QueueMessageService?disco" />
-    <MetadataFile FileName="QueueMessageService1.xsd" MetadataType="Schema" ID="7a0d4bba-5b44-4261-b25d-744594e6c1fe" SourceId="1" SourceUrl="http://localhost:6666/QueueMessageService?xsd=xsd1" />
-    <MetadataFile FileName="QueueMessageService.wsdl" MetadataType="Wsdl" ID="a309a864-0e87-4aee-b95b-bd3a2059f7e7" SourceId="1" SourceUrl="http://localhost:6666/QueueMessageService?wsdl" />
     <MetadataFile FileName="QueueMessageService1.wsdl" MetadataType="Wsdl" ID="b7c3b048-e490-4b2f-bf8c-7edfcecb29aa" SourceId="1" SourceUrl="http://localhost:6666/QueueMessageService?wsdl=wsdl0" />
+    <MetadataFile FileName="QueueMessageService.xsd" MetadataType="Schema" ID="848f560a-bbde-485a-bdf4-2ddf0e8d87df" SourceId="1" SourceUrl="http://localhost:6666/QueueMessageService?xsd=xsd0" />
+    <MetadataFile FileName="QueueMessageService1.xsd" MetadataType="Schema" ID="7a0d4bba-5b44-4261-b25d-744594e6c1fe" SourceId="1" SourceUrl="http://localhost:6666/QueueMessageService?xsd=xsd1" />
+    <MetadataFile FileName="QueueMessageService2.xsd" MetadataType="Schema" ID="b8a8a639-ebbe-4e8a-9796-81539295ea62" SourceId="1" SourceUrl="http://localhost:6666/QueueMessageService?xsd=xsd2" />
+    <MetadataFile FileName="QueueMessageService.wsdl" MetadataType="Wsdl" ID="a309a864-0e87-4aee-b95b-bd3a2059f7e7" SourceId="1" SourceUrl="http://localhost:6666/QueueMessageService?wsdl" />
+    <MetadataFile FileName="QueueMessageService.disco" MetadataType="Disco" ID="927ecb02-6b88-4ca9-b87e-181b03ab0dbe" SourceId="1" SourceUrl="http://localhost:6666/QueueMessageService?disco" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

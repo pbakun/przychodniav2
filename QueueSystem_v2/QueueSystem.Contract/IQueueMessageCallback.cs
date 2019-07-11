@@ -20,5 +20,8 @@ namespace QueueSystem.Contract
 
         [OperationContract(IsOneWay = true)]
         void NotifyClientDisconnected(string userName);
+
+        [OperationContract(IsOneWay = true)]
+        void NotifyClientWithQueueData(QueueData queue);
     }
 }

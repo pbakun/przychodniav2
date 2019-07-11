@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,16 +24,20 @@ namespace QueueSystem.Contract
         public string QueueNoMessage {
             get
             {
-                if(QueueNo > 0)
+                if(QueueNo > 0 && !isBreak)
                 {
                     return UserInitials + QueueNo.ToString();
                 }
-                else if(QueueNo == -1)
+                else if(isBreak)
                 {
                     return "Przerwa";
                 }
                 return string.Empty;
                 
+            }
+            set
+            {
+
             }
         }
 
@@ -40,10 +45,17 @@ namespace QueueSystem.Contract
 
         public DateTime Timestamp { get; set; }
 
-        public string RoomNo { get; set; }
+        public int RoomNo { get; set; }
 
         public string AdditionalMessage { get; set; }
 
+        public bool isBreak { get; set; }
+
         public string Owner { get; set; }
+
+        public bool isSenderActive { get; set; }
+
+        [PrimaryKey]
+        public int UserId { get; set; }
     }
 }

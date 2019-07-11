@@ -10,10 +10,11 @@
 
     <Window.Resources>
         <vm:DoctorsWindowVM x:Key="vm"/>
-        
+
         <Style TargetType="Label" x:Key="LabelAlignmentInGrid">
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="10"/>
         </Style>
 
         <Style TargetType="Button" x:Key="ButtonStyle">
@@ -37,7 +38,7 @@
             <MenuItem Header="Parametry"/>
         </ContextMenu>
 
-        
+
     </Window.Resources>
 
     <Grid DataContext="{StaticResource vm}">
@@ -45,6 +46,8 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="0.5*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -64,32 +67,31 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <Label x:Name="userInfoLabel"
                Content="Welcome"
                HorizontalAlignment="Right"
                VerticalAlignment="Top"
-               Margin="5"
-               Grid.Column="6"
-               Grid.ColumnSpan="2"/>
+               Margin="0,5,4.6,0"
+               Grid.Column="9"/>
         <Button Click="Show_Options_ContextMenu"
-                Margin="7"
+                Margin="6.8,7,7.4,7.4"
                 Content="Opcje"
                 Background="Transparent"
                 Focusable="False"
-                Grid.Column="6"
+                Grid.Column="8"
                 Grid.ColumnSpan="1"/>
 
         <Label Content="System Kolejkowy"
                Style="{StaticResource LabelAlignmentInGrid}"
                FontSize="20"
                Grid.Column="3"
-               Grid.ColumnSpan="2"/>
+               Grid.ColumnSpan="4"/>
         <Label Content="Aktualny Numer:"
                Style="{StaticResource LabelAlignmentInGrid}"
                Grid.Column="1"
                Grid.Row="2"/>
-        <Label Content="{Binding _queueData.QueueNoMessage}"
+        <Label Content="{Binding ViewData.QueueNoMessage}"
                x:Name="currentQueueNo"
                Grid.Column="2"
                VerticalAlignment="Center"
@@ -99,7 +101,6 @@
                 CommandParameter="{Binding Path=_queueData.ConnectionEstablished}"
                 Content="Next"
                 Style="{StaticResource ButtonStyle}"
-                Margin="50 0 0 0"
                 Grid.Column="3"
                 Grid.Row="2"/>
         <Button x:Name="previousPerson"
@@ -107,8 +108,7 @@
                 CommandParameter="{Binding Path=_queueData.ConnectionEstablished}"
                 Content="Prev"
                 Style="{StaticResource ButtonStyle}"
-                Margin="0 0 50 0"
-                Grid.Column="3"
+                Grid.Column="4"
                 Grid.Row="2"/>
         <ToggleButton x:Name="breakBtn"
                 Command="{Binding Source={StaticResource vm}, Path=_breakCommand}"
@@ -116,7 +116,7 @@
                 IsChecked="{Binding ViewData.IsBreak}"
                 Content="Przerwa"
                 Style="{StaticResource ToggleButtonStyle}"
-                Grid.Column="4"
+                Grid.Column="5"
                 Grid.Row="2"/>
 
         <Label Content="Nadpisz Numer:"
@@ -126,12 +126,12 @@
         <TextBox x:Name="forceQueueNoTextBox"
                  Text="{Binding ViewData.NewNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  PreviewTextInput="NumberValidation_PreviewTextBox"
-                 Margin="5"
                  Grid.Column="2"
                  Grid.Row="3">
             <TextBox.InputBindings>
                 <KeyBinding Key="Return"
-                            Command="{Binding Source={StaticResource vm}, Path=_forceNewPersonCommand}"/>
+                            Command="{Binding Path=_forceNewPersonCommand}"
+                            CommandParameter="{Binding Path=_queueData.ConnectionEstablished}"/>
             </TextBox.InputBindings>
         </TextBox>
         <Button x:Name="forceQueueSubmitBtn"
@@ -139,33 +139,25 @@
                 CommandParameter="{Binding Path=_queueData.ConnectionEstablished}"
                 Content="Nadpisz!"
                 Style="{StaticResource ButtonStyle}"
-                Margin="5"
                 Grid.Column="3"
+                Grid.ColumnSpan="2"
                 Grid.Row="3"/>
 
         <Label Content="Dodatkowa informacja:"
                VerticalAlignment="Bottom"
                HorizontalAlignment="Left"
-               Grid.Row="6"
                Grid.Column="1"
-               Grid.ColumnSpan="2"/>
+               Grid.Row="6"
+               Grid.ColumnSpan="3"/>
         <RichTextBox 
-            x:Name="additionalMessageTextBox"  
-                   Grid.Column="1"
+            x:Name="additionalMessageTextBox"
+            Grid.Column="1"
                    Grid.Row="7"
-                   Grid.ColumnSpan="3"
+                   Grid.ColumnSpan="4"
                    Grid.RowSpan="2">
-            <RichTextBox.Style>
-                <Style TargetType="RichTextBox">
-                    <Style.Triggers>
-                        
-                    </Style.Triggers>
-                </Style>
-            </RichTextBox.Style>
             <FlowDocument>
                 <Paragraph>
-
-                    <Run Text="{Binding ViewData.AdditionalMessageHelper}"
+                    <Run Text="{Binding ViewData.AdditionalMessageHelper, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Foreground="{Binding ViewData.AdditionalMessageFont}">
                     </Run>
                 </Paragraph>
@@ -175,13 +167,13 @@
                 Command="{Binding _clearRichTextBoxCommand}"
                 Content="Wyczyść"
                 Style="{StaticResource ButtonStyle}"
-                Grid.Column="4"
+                Grid.Column="5"
                 Grid.Row="7"/>
         <Button x:Name="sendAddMessageSubmitBtn"
                 Command="{Binding _sendAdditionalMessageCommand}"
                 Content="Wyślij!"
                 Style="{StaticResource ButtonStyle}"
-                Grid.Column="4"
+                Grid.Column="5"
                 Grid.Row="8"/>
 
 

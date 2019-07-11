@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Media;
 
 namespace DoctorsView.ViewModels
@@ -43,7 +44,7 @@ namespace DoctorsView.ViewModels
             };
 
             //Create new QueueData with default values and initials in
-            _queueData = new QueueDataBuilder().WithUserInitials(String.Concat(_user.FirstName.First(), _user.LastName.First())).Build();
+            _queueData = new QueueDataBuilder().WithUserInitials(String.Concat(_user.FirstName.First(), _user.LastName.First())).WithRoomNo(12).Build();
             //Call QueueSystem service
             _queueService = new QueueServiceAPI(_queueData, _user);
 
@@ -84,8 +85,21 @@ namespace DoctorsView.ViewModels
             {
                 ViewData.AdditionalMessageFont = Brushes.DarkOrange;
             }
+            else if(queue.AdditionalMessage.Length > 0)
+            {
+                if(ViewData.AdditionalMessageHelper != null && ViewData.AdditionalMessageHelper.Equals(string.Empty)
+                    && e.PropertyName.Equals("AdditionalMessage"))
+                {
+                    //ViewData.AdditionalMessageHelper = queue.AdditionalMessage;
+                    ViewData.AdditionalMessageFont = Brushes.DodgerBlue;
+                }
+            }
             //always maintain consistent break btn isChecked status with break status from the service
             ViewData.IsBreak = queue.IsBreak;
+            ViewData.QueueNoMessage = queue.QueueNoMessage;
+            ViewData.AdditionalMessageHelper = queue.AdditionalMessage;
+            
+            
         }
 
         internal void Break()
@@ -131,7 +145,8 @@ namespace DoctorsView.ViewModels
 
         internal void SendAdditionalMessage()
         {
-            if(_queueData.ConnectionEstablished && ViewData.AdditionalMessageHelper.Length > 0)
+            if(_queueData.ConnectionEstablished && ViewData.AdditionalMessageHelper.Length > 0 
+                && ViewData.AdditionalMessageHelper != _queueData.AdditionalMessage)
             {
                 _queueService.SendAdditionalMessage(ViewData.AdditionalMessageHelper);
             }
@@ -165,8 +180,17 @@ namespace DoctorsView.ViewModels
         //Called on window closing event
         internal void WindowClosing()
         {
-            _queueService.Disconnect(true);
-            _queueService.CloseConnection();
+            try
+            {
+                _queueService.Disconnect(true);
+                _queueService.CloseConnection();
+            }
+            catch (Exception ex)
+            {
+                string message = String.Format("Program shutdown not gracefully \n{0}", ex.Message);
+                MessageBox.Show(message, "Error", MessageBoxButton.OK);
+            }
+            
         }
     }
 }

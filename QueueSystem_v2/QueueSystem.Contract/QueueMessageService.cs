@@ -1,4 +1,6 @@
-﻿using QueueSystem.Contract.Models;
+﻿using QueueSystem.Contract.DataHandling;
+using QueueSystem.Contract.Models;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +22,7 @@ namespace QueueSystem.Contract
         public static QueueData _queueData = new QueueDataBuilder().Build();
 
         //User is connecting to the service, add user to list of registered users
-        public int Connect(int userId, string userName)
+        public int Connect(int userId, int roomNo, string userName, bool isSender = false)
         {
             IQueueMessageCallback registeredUser = OperationContext.Current.GetCallbackChannel<IQueueMessageCallback>();
             Console.WriteLine("User {0} connected at {1}", userName, DateTime.Now.ToShortTimeString());
@@ -29,8 +31,32 @@ namespace QueueSystem.Contract
 
             if (!_callbackList.Select(u => u.RegisteredUser).Contains(registeredUser))
             {
-                _callbackList.Add(new ConnectedUser(userId, registeredUser));
-                _queueData.Owner = userName;
+                var connectingUser = new ConnectedUser(userId, registeredUser);
+
+                if (isSender)
+                {
+                    var queue = QueueDatabase.FindQueue(userId);
+                    if(queue != null)
+                    {
+                        connectingUser.QueueData = queue;
+                        connectingUser.QueueData.Timestamp = DateTime.Now;
+                    }
+                    connectingUser.QueueData.UserId = userId;
+                    connectingUser.QueueData.RoomNo = roomNo;
+                    connectingUser.QueueData.Owner = userName;
+
+                    _callbackList.Add(connectingUser);
+                    QueueDatabase.AddQueue(connectingUser.QueueData);
+                }
+                else
+                {
+                    //NOT TESTED
+                    var queue = QueueDatabase.FindQueueByRoomNo(roomNo);
+                    connectingUser.QueueData = queue;
+
+                    _callbackList.Add(connectingUser);
+                }
+                
             }
 
             try
@@ -58,7 +84,10 @@ namespace QueueSystem.Contract
 
             if (_callbackList.Select(u => u.RegisteredUser).Contains(registeredUser))
             {
-                _callbackList.Remove(_callbackList.Where(u => u.Id == userId).FirstOrDefault());
+                var leavingUser = _callbackList.Where(u => u.Id == userId).FirstOrDefault();
+                _callbackList.Remove(leavingUser);
+                leavingUser.QueueData.Owner = string.Empty;
+                QueueDatabase.UpdateUsersQueue(leavingUser.QueueData);
                 Console.WriteLine("User {0} disconnected at {1}", userName, DateTime.Now.ToShortTimeString());
             }
 
@@ -83,13 +112,22 @@ namespace QueueSystem.Contract
         {
             IQueueMessageCallback registeredUser = OperationContext.Current.GetCallbackChannel<IQueueMessageCallback>();
 
-            _queueData.AdditionalMessage = additionalMessage;
+            var queueData = QueueDatabase.FindQueue(userId);
+
+            queueData.AdditionalMessage = additionalMessage;
+            QueueDatabase.UpdateUsersQueue(queueData);
+
+            var connectedUsers = _callbackList.Where(u => u.QueueData.UserId == userId).ToList();
+            foreach (var c in connectedUsers)
+            {
+                c.QueueData.AdditionalMessage = additionalMessage;
+            }
 
             Console.WriteLine("Additional message: {0}", additionalMessage);
 
             try
             {
-                _callbackList.Select(c => c.RegisteredUser).ToList().ForEach(
+                _callbackList.Where(q => q.QueueData.RoomNo == queueData.RoomNo).Select(c => c.RegisteredUser).ToList().ForEach(
                 delegate (IQueueMessageCallback callback) {
                     callback.NotifyOfReceivedAdditionalMessage(additionalMessage);
                 });
@@ -101,19 +139,69 @@ namespace QueueSystem.Contract
             }
         }
 
+
+
         //Pass new queue number and call it back to the user
         public void ReceiveQueueNo(int userId, int queueNo, string userInitials)
         {
             IQueueMessageCallback registeredUser = OperationContext.Current.GetCallbackChannel<IQueueMessageCallback>();
 
-            _queueData.QueueNo = queueNo;
-            _queueData.UserInitials = userInitials;
+            var queueData = QueueDatabase.FindQueue(userId);
+
+            //if queueNo > 0 update queueNo and turn off break, then update database
+            if(queueNo > 0)
+            {
+                queueData.QueueNo = queueNo;
+                queueData.isBreak = false;
+            }
+            //else if queueNo = -1 set break to true and keep do nothing with queueNo, then update database
+            else if(queueNo == -1)
+            {
+                queueData.isBreak = true;
+            }
+            queueData.UserInitials = userInitials;
+
+            QueueDatabase.UpdateUsersQueue(queueData);
+
+            //update queue of each connected user containing same queue userid
+            var connectedUsers = _callbackList.Where(u => u.QueueData.UserId == userId).ToList();
+            foreach(var c in connectedUsers)
+            {
+                c.QueueData = queueData;
+            }
 
             try
             {
-                _callbackList.Select(c => c.RegisteredUser).ToList().ForEach(
+                _callbackList.Where(q => q.QueueData.RoomNo == queueData.RoomNo).Select(c => c.RegisteredUser).ToList().ForEach(
                 delegate (IQueueMessageCallback callback) {
-                    callback.NotifyOfReceivedQueueNo(_queueData.QueueNoMessage);
+                    callback.NotifyOfReceivedQueueNo(queueData.QueueNoMessage);
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("ERROR in callback NotifyOfReceivedQueueNo: ");
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public void GetQueueData(int? userId = null, int? roomNo = null)
+        {
+            IQueueMessageCallback registeredUser = OperationContext.Current.GetCallbackChannel<IQueueMessageCallback>();
+            var queueData = new QueueData();
+            if (userId != null)
+            {
+                queueData = QueueDatabase.FindQueue(userId);
+            }
+            if(roomNo != null)
+            {
+                queueData = QueueDatabase.FindQueueByRoomNo(roomNo);
+            }
+
+            try
+            {
+                _callbackList.Where(q => q.QueueData.RoomNo == queueData.RoomNo).Select(c => c.RegisteredUser).ToList().ForEach(
+                delegate (IQueueMessageCallback callback) {
+                    callback.NotifyClientWithQueueData(queueData);
                 });
             }
             catch (Exception ex)

@@ -59,33 +59,6 @@ namespace DoctorsView
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        //Send additional message to the service
-        //private void SendAddMessageSubmitBtn_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //string additionalMessage = new TextRange(additionalMessageTextBox.Document.ContentStart, additionalMessageTextBox.Document.ContentEnd).Text;
-
-        //    //if (_queueData.ConnectionEstablished)
-        //    //{
-        //    //    _queueData.AdditionalMessage = additionalMessage;
-        //    //    _QueueMessage.ReceiveAdditionalMessage(_user.Id, _queueData.AdditionalMessage);
-        //    //}
-        //}
-
-        //Clears additional message text box and sends empty string to service additional message
-        //private void ClearAddMessageBtn_Click(object sender, RoutedEventArgs e)
-        //{
-        //    additionalMessageTextBox.Document.Blocks.Clear();
-        //}
-
-        ////If cursor focused on forceQueueNoTextBox and Enter pressed send new queueNo to service
-        //private void ForceQueueNoTextBox_KeyDown(object sender, KeyEventArgs e)
-        //{
-        //    if(e.Key == Key.Enter)
-        //    {
-        //        ForceQueueSubmitBtn_Click(sender, new RoutedEventArgs());
-        //    }
-        //}
-
         //Creates list of elements for Options context menu;
         //Elements taken from UI ContextMenu
         private void Show_Options_ContextMenu(object sender, RoutedEventArgs e)

@@ -1,4 +1,5 @@
 ﻿using QueueSystem.Contract;
+using QueueSystem.Contract.DataHandling;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,8 @@ namespace QueueSystem.Host
             {
                 //serviceHost.AddServiceEndpoint(serviceEndpoint);
                 serviceHost.Open();
+                //to display DB content in VS
+                Console.WriteLine(QueueDatabase.ReadDatabase());
                 Console.WriteLine("QueueSystem service started...");
                 Console.ReadKey();
             }

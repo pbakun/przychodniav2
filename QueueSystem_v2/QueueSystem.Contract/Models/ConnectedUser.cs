@@ -6,16 +6,19 @@ using System.Threading.Tasks;
 
 namespace QueueSystem.Contract.Models
 {
-    class ConnectedUser
+    public class ConnectedUser
     {
         public int Id { get; set; }
 
         public IQueueMessageCallback RegisteredUser { get; set; }
 
+        public QueueData QueueData { get; set; }
+
         public ConnectedUser(int id, IQueueMessageCallback registeredUser)
         {
             Id = id;
             RegisteredUser = registeredUser;
+            QueueData = new QueueDataBuilder().Build();
         }
     }
 }

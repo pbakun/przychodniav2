@@ -25,5 +25,7 @@ namespace DoctorsView.Models
 
         public bool isActive { get; set; }
 
+        public bool isSendingData { get; set; }
+
     }
 }

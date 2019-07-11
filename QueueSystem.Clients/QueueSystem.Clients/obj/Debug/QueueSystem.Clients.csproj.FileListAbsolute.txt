@@ -16,7 +16,6 @@ C:\Users\pbakun\source\repos\QueueSystem.Clients\QueueSystem.Clients\obj\Debug\Q
 D:\Moje\C#\Przychodnia\QueueSystem.Clients\QueueSystem.Clients\bin\Debug\QueueSystem.Clients.exe.config
 D:\Moje\C#\Przychodnia\QueueSystem.Clients\QueueSystem.Clients\bin\Debug\QueueSystem.Clients.exe
 D:\Moje\C#\Przychodnia\QueueSystem.Clients\QueueSystem.Clients\bin\Debug\QueueSystem.Clients.pdb
-D:\Moje\C#\Przychodnia\QueueSystem.Clients\QueueSystem.Clients\obj\Debug\QueueSystem.Clients.csprojAssemblyReference.cache
 D:\Moje\C#\Przychodnia\QueueSystem.Clients\QueueSystem.Clients\obj\Debug\MainWindow.g.cs
 D:\Moje\C#\Przychodnia\QueueSystem.Clients\QueueSystem.Clients\obj\Debug\App.g.cs
 D:\Moje\C#\Przychodnia\QueueSystem.Clients\QueueSystem.Clients\obj\Debug\QueueSystem.Clients_MarkupCompile.cache

@@ -11,7 +11,7 @@ namespace QueueSystem.Contract
     {
         private int _queueNo;
         private string _userInitials;
-        private string _roomNo;
+        private int _roomNo;
         private DateTime _timestamp;
         private string _additionalMessage;
         private string _owner;
@@ -25,7 +25,7 @@ namespace QueueSystem.Contract
         {
             _queueNo = 0;
             _userInitials = string.Empty;
-            _roomNo = string.Empty;
+            _roomNo = 0;
             _timestamp = DateTime.Now;
             _additionalMessage = string.Empty;
         }
@@ -36,7 +36,7 @@ namespace QueueSystem.Contract
             return this;
         }
 
-        public QueueDataBuilder WithRoomNo(string roomNo)
+        public QueueDataBuilder WithRoomNo(int roomNo)
         {
             _roomNo = roomNo;
             return this;

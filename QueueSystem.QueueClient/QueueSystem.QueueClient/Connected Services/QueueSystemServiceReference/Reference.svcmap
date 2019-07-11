@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="f330c730-a712-46d4-aac7-bd7b7ff4dc91" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:6666/QueueMessageService" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="QueueMessageService.wsdl" MetadataType="Wsdl" ID="0be1f591-cbc1-4cd4-bf6b-43383113c195" SourceId="1" SourceUrl="http://localhost:6666/QueueMessageService?wsdl=wsdl0" />
+    <MetadataFile FileName="QueueMessageService.xsd" MetadataType="Schema" ID="ec967a0b-f864-4fcc-90e1-4c41d2cd0841" SourceId="1" SourceUrl="http://localhost:6666/QueueMessageService?xsd=xsd0" />
+    <MetadataFile FileName="QueueMessageService1.xsd" MetadataType="Schema" ID="2abc7575-9131-4fe9-85f1-19a9c521422a" SourceId="1" SourceUrl="http://localhost:6666/QueueMessageService?xsd=xsd1" />
+    <MetadataFile FileName="QueueMessageService2.xsd" MetadataType="Schema" ID="a173bff1-d7b2-4074-a519-d3002d394821" SourceId="1" SourceUrl="http://localhost:6666/QueueMessageService?xsd=xsd2" />
+    <MetadataFile FileName="QueueMessageService1.wsdl" MetadataType="Wsdl" ID="704c355a-64e7-42a4-b112-7249daef4a0a" SourceId="1" SourceUrl="http://localhost:6666/QueueMessageService?wsdl" />
+    <MetadataFile FileName="QueueMessageService.disco" MetadataType="Disco" ID="1d8ba58c-24b9-4d5f-a5d5-26591c17ff13" SourceId="1" SourceUrl="http://localhost:6666/QueueMessageService?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
