@@ -28,7 +28,7 @@ namespace QueueSystem.Host
                 //serviceHost.AddServiceEndpoint(serviceEndpoint);
                 serviceHost.Open();
                 //to display DB content in VS
-                Console.WriteLine(QueueDatabase.ReadDatabase());
+                //Console.WriteLine(QueueDatabase.ReadDatabase());
                 Console.WriteLine("QueueSystem service started...");
                 Console.ReadKey();
             }

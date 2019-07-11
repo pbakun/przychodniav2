@@ -54,6 +54,7 @@ namespace QueueSystem.Contract.DataHandling
             {
                 using (SQLiteConnection conn = new SQLiteConnection(DatabaseHelper.dbFile))
                 {
+                    conn.CreateTable<QueueData>();
                     user = conn.Table<QueueData>().Where(u => u.UserId == userId).FirstOrDefault();
                 }
             }
@@ -67,6 +68,7 @@ namespace QueueSystem.Contract.DataHandling
             {
                 using (SQLiteConnection conn = new SQLiteConnection(DatabaseHelper.dbFile))
                 {
+                    conn.CreateTable<QueueData>();
                     user = conn.Table<QueueData>().Where(u => u.RoomNo == roomNo).OrderBy(t => t.Timestamp).FirstOrDefault();
                 }
             }

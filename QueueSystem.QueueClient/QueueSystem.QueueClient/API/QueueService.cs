@@ -31,7 +31,7 @@ namespace QueueSystem.QueueClient.API
         {
             User = user;
             QueueData = queueData;
-            //InitializeConnection();
+            InitializeConnection();
         }
         
         private void InitializeConnection()
