@@ -13,7 +13,6 @@ namespace DoctorsView
 
     public partial class App : Application
     {
-        
-        
+        public static int userId = 0;        
     }
 }

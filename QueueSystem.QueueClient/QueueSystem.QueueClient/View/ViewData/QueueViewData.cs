@@ -29,19 +29,19 @@ namespace QueueSystem.QueueClient.View.ViewData
                 OnPropertyChange(nameof(AdditionalMessage));
                 if(AdditionalMessage.Length > 0)
                 {
-                    AdditionalMessageBarVisibility = Visibility.Visible;
+                    AdditionalMessageBarVisibility = 40;
                 }
                 else
                 {
-                    AdditionalMessageBarVisibility = Visibility.Hidden;
+                    AdditionalMessageBarVisibility = 0;
                 }
                 OnPropertyChange(nameof(AdditionalMessageBarVisibility));
             }
         }
 
-        private Visibility additionalMessageBarVisibility;
+        private int additionalMessageBarVisibility;
 
-        public Visibility AdditionalMessageBarVisibility
+        public int AdditionalMessageBarVisibility
         {
             get { return additionalMessageBarVisibility; }
             set { additionalMessageBarVisibility = value;

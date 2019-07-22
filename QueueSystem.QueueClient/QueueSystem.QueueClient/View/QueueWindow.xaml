@@ -37,11 +37,18 @@
 
         </ToolBar>
 
-        <StatusBar DockPanel.Dock="Bottom" Visibility="{Binding QueueView.AdditionalMessageBarVisibility}">
-            <StatusBarItem DataContext="{Binding QueueView}">
-                <TextBlock Text="{Binding AdditionalMessage}"
+        <StatusBar DockPanel.Dock="Bottom"
+                   Height="{Binding QueueView.AdditionalMessageBarVisibility}"
+                   >
+            <StatusBarItem DataContext="{Binding QueueView}"
+                           x:Name="statusBar">
+                <Canvas Canvas.Left="150" Canvas.Top="100" ClipToBounds="True" Name="canMain" Background="PapayaWhip"   Height="40" Width="790">
+                    <TextBlock x:Name="additionalInfoTextBlock"
+                           Text="{Binding AdditionalMessage}" 
                            FontSize="25"
                            />
+                </Canvas>
+                
             </StatusBarItem>
         </StatusBar>
         <!--<Viewbox StretchDirection="Both" Stretch="Uniform">-->

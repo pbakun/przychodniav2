@@ -46,6 +46,7 @@ namespace QueueSystem.QueueClient.ViewModel
 
             QueueData.PropertyChanged += QueueData_PropertyChanged;
 
+            //QueueView.AdditionalMessage = "Lorem ipsum loros dalej nie pamietam jak to leciało, ale potrzebuje troche wiecej tekstu";
             if (DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()))
             {
                 QueueView.QueueNoMessage = "PB123456";

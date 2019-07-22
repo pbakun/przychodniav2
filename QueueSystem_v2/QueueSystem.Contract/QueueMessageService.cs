@@ -45,7 +45,6 @@ namespace QueueSystem.Contract
                     connectingUser.QueueData.RoomNo = roomNo;
                     connectingUser.QueueData.Owner = userName;
 
-                    _callbackList.Add(connectingUser);
                     QueueDatabase.AddQueue(connectingUser.QueueData);
                 }
                 else
@@ -53,10 +52,8 @@ namespace QueueSystem.Contract
                     //NOT TESTED
                     var queue = QueueDatabase.FindQueueByRoomNo(roomNo);
                     connectingUser.QueueData = queue;
-
-                    _callbackList.Add(connectingUser);
                 }
-                
+                _callbackList.Add(connectingUser);
             }
 
             try
@@ -81,7 +78,8 @@ namespace QueueSystem.Contract
             IQueueMessageCallback registeredUser = OperationContext.Current.GetCallbackChannel<IQueueMessageCallback>();
 
             _queueData = new QueueDataBuilder().Build();
-
+            var bla1 = _callbackList.Select(u => u.RegisteredUser).ToList();
+            var bla = _callbackList.Select(u => u.RegisteredUser).ToList().Contains(registeredUser);
             if (_callbackList.Select(u => u.RegisteredUser).Contains(registeredUser))
             {
                 var leavingUser = _callbackList.Where(u => u.Id == userId).FirstOrDefault();

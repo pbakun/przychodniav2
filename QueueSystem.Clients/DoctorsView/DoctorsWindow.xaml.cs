@@ -29,7 +29,10 @@ namespace DoctorsView
     {
         private readonly User _user;
 
-        private DoctorsWindowVM VM = new DoctorsWindowVM();
+        //public DoctorsWindowVM VM
+        //{
+        //    set { DataContext = value; }
+        //}
 
         public DoctorsWindow()
         {
@@ -41,14 +44,13 @@ namespace DoctorsView
                 // userInfoLabel.Content = "Witaj " + _user.FirstName + " " + _user.LastName;
                 //_queueData.UserInitials = _user.FirstName.FirstOrDefault().ToString() + _user.LastName.FirstOrDefault();
             }
-
-            //Initialize WCF Communication
-            //this.ContentRendered += DoctorsWindow_ContentRendered;
-            this.Closing += DoctorsWindow_Closing1;
+            
+            this.Closing += DoctorsWindow_Closing;
         }
 
-        private void DoctorsWindow_Closing1(object sender, System.ComponentModel.CancelEventArgs e)
+        private void DoctorsWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            DoctorsWindowVM VM = new DoctorsWindowVM();
             VM.WindowClosing();
         }
 
@@ -68,5 +70,9 @@ namespace DoctorsView
             cm.IsOpen = true;
         }
 
+        private void OptionsBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

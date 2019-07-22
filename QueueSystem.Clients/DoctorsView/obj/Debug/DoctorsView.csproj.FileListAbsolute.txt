@@ -64,3 +64,5 @@ D:\Moje\C#\Przychodnia\QueueSystem.Clients\DoctorsView\obj\Debug\DoctorsView.csp
 D:\Moje\C#\Przychodnia\QueueSystem.Clients\DoctorsView\obj\Debug\DoctorsView.csproj.CoreCompileInputs.cache
 D:\Moje\C#\Przychodnia\QueueSystem.Clients\DoctorsView\obj\Debug\DoctorsView.csproj.CopyComplete
 D:\Moje\C#\Przychodnia\QueueSystem.Clients\DoctorsView\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\Moje\C#\Przychodnia\QueueSystem.Clients\DoctorsView\obj\Debug\View\OptionsWindow.g.cs
+D:\Moje\C#\Przychodnia\QueueSystem.Clients\DoctorsView\obj\Debug\View\OptionsWindow.baml

@@ -47,7 +47,6 @@ namespace DoctorsView.ViewModels
             _queueData = new QueueDataBuilder().WithUserInitials(String.Concat(_user.FirstName.First(), _user.LastName.First())).WithRoomNo(12).Build();
             //Call QueueSystem service
             _queueService = new QueueServiceAPI(_queueData, _user);
-
             //Commands
             _connectCommand = new ConnectCommand(this);
             _disconnectCommand = new DisconnectCommand(this);

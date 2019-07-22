@@ -41,8 +41,10 @@ namespace QueueSystem.QueueClient.API
             {
                 _uiSyncContext = SynchronizationContext.Current;
                 //WSHttpBinding binding = new WSHttpBinding();
-                //Uri address = new Uri("http://localhost:6666/QueueMessageService/service");
+                Uri address = new Uri("http://localhost:6666/QueueMessageService/service");
                 //EndpointAddress endpoint = new EndpointAddress(address);
+                
+                
 
                 InstanceContext instanceContext = new InstanceContext(this);
 

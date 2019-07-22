@@ -36,6 +36,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>HealthCheck.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="SQLite-net, Version=1.5.231.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\sqlite-net-pcl.1.5.231\lib\netstandard1.1\SQLite-net.dll</HintPath>
@@ -74,6 +77,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="API\IQueueService.cs" />
     <Compile Include="API\QueueServiceAPI.cs" />
     <Compile Include="Commands\BreakCommand.cs" />
     <Compile Include="Commands\ClearRichTextBoxCommand.cs" />
@@ -88,11 +92,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Models\AppParameters.cs" />
     <Compile Include="Models\QueueData.cs" />
     <Compile Include="Models\DoctorsViewData.cs" />
     <Compile Include="Utility\QueueDataBuilder.cs" />
     <Compile Include="Utility\StaticDetails.cs" />
     <Compile Include="ViewModels\DoctorsWindowVM.cs" />
+    <Compile Include="ViewModels\LoginVM.cs" />
+    <Compile Include="ViewModels\OptionsVM.cs" />
+    <Compile Include="View\OptionsWindow.xaml.cs">
+      <DependentUpon>OptionsWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="DoctorsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -112,6 +122,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\OptionsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\User.cs" />
@@ -182,6 +196,12 @@
   <ItemGroup>
     <Folder Include="Interfaces\" />
     <Folder Include="Public\Images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="HealthCheck.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\HealthCheck.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.11\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.11\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" />

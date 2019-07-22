@@ -16,15 +16,15 @@ namespace DoctorsView.API
     [CallbackBehavior(
            ConcurrencyMode = ConcurrencyMode.Single,
            UseSynchronizationContext = false)]
-    public class QueueServiceAPI : QueueSystemServiceReference.ContractCallback
+    public class QueueServiceAPI : QueueSystemServiceReference.ContractCallback, IQueueService
     {
         public static QueueSystemServiceReference.ContractClient _QueueMessage;
 
         private Exception serviceConnectionNotEstablished;
         private SynchronizationContext _uiSyncContext = null;
 
-        private QueueData QueueData;
-        private User User;
+        private QueueData QueueData { get; set; }
+        private User User { get; set; }
 
         public QueueServiceAPI(QueueData _queueData, User _user)
         {
