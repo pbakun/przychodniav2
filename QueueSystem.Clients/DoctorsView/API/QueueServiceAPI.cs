@@ -1,5 +1,6 @@
 ﻿using DoctorsView.Commands;
 using DoctorsView.Models;
+using DoctorsView.Utility;
 using DoctorsView.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ namespace DoctorsView.API
         public QueueServiceAPI(QueueData _queueData, User _user)
         {
             QueueData = _queueData;
+            //QueueData = new QueueDataBuilder().WithUserInitials(String.Concat(_user.FirstName.First(), _user.LastName.First())).WithRoomNo(12).Build();
             User = _user;
             InitializeConnection();
             

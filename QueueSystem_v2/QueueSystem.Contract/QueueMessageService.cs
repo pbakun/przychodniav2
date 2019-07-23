@@ -29,7 +29,7 @@ namespace QueueSystem.Contract
 
             //Add checking some credentails
 
-            if (!_callbackList.Select(u => u.RegisteredUser).Contains(registeredUser))
+            if (!_callbackList.Select(u => u.Id).Contains(userId))
             {
                 var connectingUser = new ConnectedUser(userId, registeredUser);
 
@@ -52,6 +52,7 @@ namespace QueueSystem.Contract
                     //NOT TESTED
                     var queue = QueueDatabase.FindQueueByRoomNo(roomNo);
                     connectingUser.QueueData = queue;
+                    connectingUser.RegisteredUser = registeredUser;
                 }
                 _callbackList.Add(connectingUser);
             }
@@ -78,9 +79,8 @@ namespace QueueSystem.Contract
             IQueueMessageCallback registeredUser = OperationContext.Current.GetCallbackChannel<IQueueMessageCallback>();
 
             _queueData = new QueueDataBuilder().Build();
-            var bla1 = _callbackList.Select(u => u.RegisteredUser).ToList();
-            var bla = _callbackList.Select(u => u.RegisteredUser).ToList().Contains(registeredUser);
-            if (_callbackList.Select(u => u.RegisteredUser).Contains(registeredUser))
+            
+            if (_callbackList.Select(u => u.Id).Contains(userId))
             {
                 var leavingUser = _callbackList.Where(u => u.Id == userId).FirstOrDefault();
                 _callbackList.Remove(leavingUser);

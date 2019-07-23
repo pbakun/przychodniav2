@@ -43,10 +43,12 @@ namespace DoctorsView.ViewModels
                 Email = "baksoncontrolpb@gmail.com"
             };
 
+            
             //Create new QueueData with default values and initials in
             _queueData = new QueueDataBuilder().WithUserInitials(String.Concat(_user.FirstName.First(), _user.LastName.First())).WithRoomNo(12).Build();
             //Call QueueSystem service
             _queueService = new QueueServiceAPI(_queueData, _user);
+
             //Commands
             _connectCommand = new ConnectCommand(this);
             _disconnectCommand = new DisconnectCommand(this);
@@ -58,8 +60,7 @@ namespace DoctorsView.ViewModels
             _clearRichTextBoxCommand = new ClearRichTextBoxCommand(this);
 
             //Initiate data for View (UI)
-            ViewData = new DoctorsViewData(_queueData);
-
+            ViewData = new DoctorsViewData();
 
             _queueData.PropertyChanged += _queueData_PropertyChanged;
 

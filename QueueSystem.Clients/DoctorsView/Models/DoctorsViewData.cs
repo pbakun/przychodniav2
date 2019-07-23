@@ -75,9 +75,8 @@ namespace DoctorsView.Models
             }
         }
 
-        public DoctorsViewData(QueueData _queueData)
+        public DoctorsViewData()
         {
-            QueueData = _queueData;
             AdditionalMessageHelper = string.Empty;
         }
 
