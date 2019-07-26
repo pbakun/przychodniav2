@@ -1,0 +1,140 @@
+﻿<Window x:Class="DoctorsView.View.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DoctorsView.View"
+        xmlns:vm="clr-namespace:DoctorsView.ViewModels"
+        xmlns:cv="clr-namespace:DoctorsView.Converters"
+        mc:Ignorable="d"
+        Icon="Image/HealthCheck.ico"
+        Title="System Kolejkowy - Logowanie" Height="240" Width="400">
+    <Window.Resources>
+        <Style TargetType="TextBox" x:Key="credentialsTextBox">
+            <Setter Property="Margin" Value="5 0 5 0"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+
+        <Style TargetType="Button" x:Key="submitButton">
+            <Setter Property="Width" Value="70"/>
+            <Setter Property="Margin" Value="0 10"/>
+        </Style>
+
+        <Style TargetType="PasswordBox" x:Key="passwordBox">
+            <Setter Property="Margin" Value="5 0 5 0"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+
+        <!--<vm:LoginVM x:Key="vm"/>-->
+        <cv:BoolToVisibilityConverter x:Key="boolToVis"/>
+        <cv:MultiBindingConverter x:Key="multiBinding"/>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <DockPanel Grid.Column="1">
+            <Label Content="System Kolejkowy"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               FontSize="20"
+               FontWeight="Bold"
+               DockPanel.Dock="Top"/>
+
+            <StackPanel DockPanel.Dock="Top"
+                        x:Name="loginStackPanel"
+                        Visibility="Visible">
+                <Label Content="Login:" />
+                <TextBox x:Name="loginTextBox"
+                 Text="{Binding User4View.Login}"
+                 Style="{StaticResource credentialsTextBox}"
+                 />
+
+                <Label Content="Hasło:" />
+                <PasswordBox x:Name="passwordBox"
+                             Style="{StaticResource passwordBox}" />
+
+                <CheckBox Content="Zapamiętaj mnie"
+                          Margin="5"/>
+
+                <Button x:Name="loginSubmitButton"
+                    Content="Login"
+                        Command="{Binding LoginCommand, Mode=OneTime}"
+                        CommandParameter="{Binding ElementName=passwordBox}"
+                    Margin="0 3 20 3"
+                    Style="{StaticResource submitButton}"/>
+
+                <Button x:Name="noAccountButton"
+                        Content="Nie mam konta"
+                        Click="NoAccountButton_Click"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Right"/>
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Top"
+                        x:Name="registerStackPanel"
+                        Visibility="Collapsed">
+                <Label Content="Login:"/>
+                <TextBox Text="{Binding User4View.Login}"
+                         Style="{StaticResource credentialsTextBox}"/>
+
+                <Label Content="Imię:"/>
+                <TextBox Text="{Binding User4View.FirstName}"
+                         Style="{StaticResource credentialsTextBox}"/>
+
+                <Label Content="Nazwisko:"/>
+                <TextBox Text="{Binding User4View.LastName}"
+                         Style="{StaticResource credentialsTextBox}"/>
+
+                <Label Content="Email:"/>
+                <TextBox Text="{Binding User4View.Email}"
+                         Style="{StaticResource credentialsTextBox}"/>
+                
+                <TextBlock Text="Hasła nie zgadzają się!"
+                           x:Name="passwordsNotMatchTextBlock"
+                           Margin="5 5 0 -5"
+                           Visibility="Collapsed"
+                           Foreground="Red"/>
+                <TextBlock Text="Hasło musi mieć przynajmniej 4 znaki!"
+                           x:Name="passwordToShortTextBlock"
+                           Margin="5 5 0 -5"
+                           Visibility="Collapsed"
+                           Foreground="Red"/>
+
+                <Label Content="Hasło:"/>
+                <PasswordBox x:Name="newPasswordBox"
+                             PasswordChanged="PasswordChanged"
+                             Style="{StaticResource passwordBox}" />
+
+                <Label Content="Potwierdź hasło:"/>
+                <PasswordBox x:Name="confirmPasswordBox"
+                             PasswordChanged="PasswordChanged"
+                             Style="{StaticResource passwordBox}" />
+
+                <Button x:Name="registerSubmitButton"
+                    Content="Rejestruj"
+                    Style="{StaticResource submitButton}"
+                        Command="{Binding RegisterCommand, Mode=OneTime}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource multiBinding}">
+                            <Binding ElementName="newPasswordBox"/>
+                            <Binding ElementName="confirmPasswordBox"/>
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+
+                <Button x:Name="haveAccountButton"
+                        Content="Mam konto!"
+                        Click="HaveAccountButton_Click"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Right"/>
+            </StackPanel>
+        </DockPanel>
+    </Grid>
+    
+
+    
+</Window>

@@ -1,6 +1,7 @@
 ﻿using DoctorsView.Models;
 using DoctorsView.QueueSystemServiceReference;
 using DoctorsView.Utility;
+using DoctorsView.View;
 using DoctorsView.ViewModels;
 using SQLite;
 using System;
@@ -72,7 +73,8 @@ namespace DoctorsView
 
         private void OptionsBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            OptionsWindow optionsWindow = new OptionsWindow();
+            optionsWindow.ShowDialog();
         }
     }
 }

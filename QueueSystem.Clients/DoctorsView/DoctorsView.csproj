@@ -82,17 +82,27 @@
     <Compile Include="Commands\BreakCommand.cs" />
     <Compile Include="Commands\ClearRichTextBoxCommand.cs" />
     <Compile Include="Commands\ConnectCommand.cs" />
+    <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Commands\DisconnectCommand.cs" />
     <Compile Include="Commands\ForceNewPersonCommand.cs" />
     <Compile Include="Commands\NextPersonCommand.cs" />
     <Compile Include="Commands\PreviousPersonCommand.cs" />
+    <Compile Include="Commands\SaveParametersCommand.cs" />
     <Compile Include="Commands\SendAdditionalMessageCommand.cs" />
     <Compile Include="Connected Services\QueueSystemServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\MultiBindingConverter.cs" />
+    <Compile Include="Interfaces\IView.cs" />
+    <Compile Include="Interfaces\IViewModel.cs" />
     <Compile Include="Models\AppParameters.cs" />
+    <Compile Include="Models\Authenticaton\AuthenticationService.cs" />
+    <Compile Include="Models\Authenticaton\CustomPrincipal.cs" />
+    <Compile Include="Models\Authenticaton\IAuthenticationService.cs" />
+    <Compile Include="Models\Authenticaton\Identity.cs" />
     <Compile Include="Models\QueueData.cs" />
     <Compile Include="Models\DoctorsViewData.cs" />
     <Compile Include="Utility\QueueDataBuilder.cs" />
@@ -100,6 +110,9 @@
     <Compile Include="ViewModels\DoctorsWindowVM.cs" />
     <Compile Include="ViewModels\LoginVM.cs" />
     <Compile Include="ViewModels\OptionsVM.cs" />
+    <Compile Include="View\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\OptionsWindow.xaml.cs">
       <DependentUpon>OptionsWindow.xaml</DependentUpon>
     </Compile>
@@ -122,6 +135,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\OptionsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -167,12 +184,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\QueueSystem.Contract\QueueSystem.Contract.csproj">
-      <Project>{0CB2403B-1A42-4D1B-A876-85BEE1D0CF20}</Project>
-      <Name>QueueSystem.Contract</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
@@ -194,7 +205,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Interfaces\" />
     <Folder Include="Public\Images\" />
   </ItemGroup>
   <ItemGroup>

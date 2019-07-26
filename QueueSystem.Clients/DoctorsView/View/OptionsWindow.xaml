@@ -4,9 +4,35 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DoctorsView.View"
+        xmlns:vm="clr-namespace:DoctorsView.ViewModels"
         mc:Ignorable="d"
-        Title="OptionsWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="OptionsWindow" Height="450" Width="350">
+
+    <Window.Resources>
+        <vm:OptionsVM x:Key="vm"/>
+    </Window.Resources>
+
+    <StackPanel DataContext="{StaticResource vm}"
+                Margin="10">
+
+        <Label Content="Adres serwera"/>
+        <TextBox Text="{Binding AppParameters.ServiceAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="5"
+                 Width="250"/>
+
+        <Label Content="Numer pokoju"/>
+        <TextBox Text="{Binding AppParameters.RoomNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 PreviewTextInput="NumberValidation_PreviewTextBox"
+                 Margin="5"
+                 Width="250"/>
+
+        <Button Content="Zapisz"
+                Command="{Binding saveParametersCommand}"
+                Margin="10"
+                Width="60"
+                HorizontalAlignment="Right"/>
+
+    </StackPanel>
+    
+   
 </Window>

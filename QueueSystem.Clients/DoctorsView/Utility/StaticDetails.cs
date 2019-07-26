@@ -11,5 +11,8 @@ namespace DoctorsView.Utility
     {
         public const string userDatabase = "userData.db";
         public static readonly string userDatabasePath = Path.Combine(Environment.CurrentDirectory, "Data", userDatabase);
+
+        public const string appParameters = "parameters.xml";
+        public static readonly string appParametersFilePath = Path.Combine(Environment.CurrentDirectory, "Data", appParameters);
     }
 }
