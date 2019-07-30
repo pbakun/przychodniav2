@@ -182,7 +182,10 @@ namespace DoctorsView.ViewModels
         {
             try
             {
-                _queueService.Disconnect(true);
+                if (_queueData.ConnectionEstablished)
+                {
+                    _queueService.Disconnect(true);
+                }
                 _queueService.CloseConnection();
             }
             catch (Exception ex)

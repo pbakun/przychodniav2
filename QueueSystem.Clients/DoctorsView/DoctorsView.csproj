@@ -105,6 +105,7 @@
     <Compile Include="Models\Authenticaton\Identity.cs" />
     <Compile Include="Models\QueueData.cs" />
     <Compile Include="Models\DoctorsViewData.cs" />
+    <Compile Include="Utility\ParametersHelper.cs" />
     <Compile Include="Utility\QueueDataBuilder.cs" />
     <Compile Include="Utility\StaticDetails.cs" />
     <Compile Include="ViewModels\DoctorsWindowVM.cs" />

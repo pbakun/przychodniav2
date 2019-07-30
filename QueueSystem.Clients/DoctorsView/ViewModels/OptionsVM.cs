@@ -24,7 +24,7 @@ namespace DoctorsView.ViewModels
         {
             AppParameters = new AppParameters();
 
-            RetrieveParameters();
+            ReadParameters();
 
             saveParametersCommand = new SaveParametersCommand(this);
             
@@ -32,22 +32,12 @@ namespace DoctorsView.ViewModels
 
         public void SaveParameters()
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(AppParameters));
-
-            using (FileStream stream = new FileStream(StaticDetails.appParametersFilePath, FileMode.Create, FileAccess.Write))
-            {
-                xmlSerializer.Serialize(stream, AppParameters); 
-            }
+            ParametersHelper.Save(AppParameters);
         }
 
-        public void RetrieveParameters()
+        public void ReadParameters()
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(AppParameters));
-
-            using (FileStream stream = new FileStream(StaticDetails.appParametersFilePath, FileMode.Open, FileAccess.Read))
-            {
-                AppParameters = (AppParameters)xmlSerializer.Deserialize(stream);
-            }
+            AppParameters = ParametersHelper.Read();
         }
         
     }

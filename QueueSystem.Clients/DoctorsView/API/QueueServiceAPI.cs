@@ -21,6 +21,7 @@ namespace DoctorsView.API
     {
         public static QueueSystemServiceReference.ContractClient _QueueMessage;
 
+        private bool serviceConnectionOpened;
         private Exception serviceConnectionNotEstablished;
         private SynchronizationContext _uiSyncContext = null;
 
@@ -42,23 +43,22 @@ namespace DoctorsView.API
             try
             {
                 _uiSyncContext = SynchronizationContext.Current;
-                //WSHttpBinding binding = new WSHttpBinding();
-                //Uri address = new Uri("http://localhost:6666/QueueMessageService/service");
-                //EndpointAddress endpoint = new EndpointAddress(address);
-
                 InstanceContext instanceContext = new InstanceContext(this);
 
-                //_MessageService = new ServiceReference.ContractClient(instanceContext, "WSDualHttpBinding_Contract", endpoint);
-                _QueueMessage = new QueueSystemServiceReference.ContractClient(instanceContext, "WSDualHttpBinding_Contract");
+                //without app.config settings
+                WSDualHttpBinding binding = new WSDualHttpBinding();
+                binding.OpenTimeout = new TimeSpan(0, 0, 5);
+                string serviceURL = ParametersHelper.Read().ServiceAddress;
+                Uri address = new Uri(serviceURL);
+                EndpointAddress endpoint = new EndpointAddress(address, EndpointIdentity.CreateDnsIdentity("localhost"));
 
-                _QueueMessage.Open();
-
-                //using (_QueueMessage = new QueueSystemServiceReference.ContractClient(instanceContext, "WSDualHttpBinding_Contract"))
-                //{
-                //    _QueueMessage.Open();
-
-                //    serviceRequest.DynamicInvoke();
-                //}
+                _QueueMessage = new QueueSystemServiceReference.ContractClient(instanceContext, binding, endpoint);
+                //_QueueMessage = new QueueSystemServiceReference.ContractClient(instanceContext, "WSDualHttpBinding_Contract");
+                if (!serviceConnectionOpened)
+                {
+                    _QueueMessage.Open();
+                    serviceConnectionOpened = true;
+                }
 
             }
             catch (Exception ex)
@@ -68,15 +68,15 @@ namespace DoctorsView.API
                     serviceConnectionNotEstablished = ex;
                     MessageBox.Show("Connection to the service could no be established", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-
             }
-
 
         }
 
         public void CloseConnection()
         {
+            if(serviceConnectionOpened)
                 _QueueMessage.Close();
+            serviceConnectionOpened = false;
         }
 
         //is sets to true to disconnect when window is closing

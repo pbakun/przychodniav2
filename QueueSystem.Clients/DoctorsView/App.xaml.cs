@@ -33,9 +33,9 @@ namespace DoctorsView
 
 
             //Show login view
-            LoginVM VM = new LoginVM(new AuthenticationService());
-            IView loginWindow = new LoginWindow(VM);
-            loginWindow.Show();
+            //LoginVM VM = new LoginVM(new AuthenticationService());
+            //IView loginWindow = new LoginWindow(VM);
+            //loginWindow.Show();
             
         }
     }

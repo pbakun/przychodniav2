@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.572
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueueSystem.Clients", "QueueSystem.Clients\QueueSystem.Clients.csproj", "{FCEA7073-CC31-4B5D-B1E9-05FBEFA8A2CB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorsView", "DoctorsView\DoctorsView.csproj", "{7905A2E8-808A-4EDB-99AF-830B6C41F1B4}"
 EndProject
 Global
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FCEA7073-CC31-4B5D-B1E9-05FBEFA8A2CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FCEA7073-CC31-4B5D-B1E9-05FBEFA8A2CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FCEA7073-CC31-4B5D-B1E9-05FBEFA8A2CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FCEA7073-CC31-4B5D-B1E9-05FBEFA8A2CB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7905A2E8-808A-4EDB-99AF-830B6C41F1B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7905A2E8-808A-4EDB-99AF-830B6C41F1B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7905A2E8-808A-4EDB-99AF-830B6C41F1B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
