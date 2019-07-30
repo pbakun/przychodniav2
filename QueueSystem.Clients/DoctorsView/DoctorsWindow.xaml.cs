@@ -30,11 +30,7 @@ namespace DoctorsView
     {
         private readonly User _user;
 
-        //public DoctorsWindowVM VM
-        //{
-        //    set { DataContext = value; }
-        //}
-
+        private DoctorsWindowVM VM;
         public DoctorsWindow()
         {
             InitializeComponent();
@@ -45,13 +41,13 @@ namespace DoctorsView
                 // userInfoLabel.Content = "Witaj " + _user.FirstName + " " + _user.LastName;
                 //_queueData.UserInitials = _user.FirstName.FirstOrDefault().ToString() + _user.LastName.FirstOrDefault();
             }
-            
+            VM = this.Resources["vm"] as DoctorsWindowVM;
+            container.DataContext = VM;
             this.Closing += DoctorsWindow_Closing;
         }
 
         private void DoctorsWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            DoctorsWindowVM VM = new DoctorsWindowVM();
             VM.WindowClosing();
         }
 
