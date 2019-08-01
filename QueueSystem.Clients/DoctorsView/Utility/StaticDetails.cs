@@ -14,5 +14,9 @@ namespace DoctorsView.Utility
 
         public const string appParameters = "parameters.xml";
         public static readonly string appParametersFilePath = Path.Combine(Environment.CurrentDirectory, "Data", appParameters);
+
+        public const string TimeoutExceptionMessage = "Nie udało się wysłać żądania do serwera.";
+
+        public const string OpenServerConnectionErrorMessage = "Nie udało się nawiązać połączenia z serwerem.";
     }
 }

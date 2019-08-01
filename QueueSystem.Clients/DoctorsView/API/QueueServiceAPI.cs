@@ -48,6 +48,9 @@ namespace DoctorsView.API
                 //without app.config settings
                 WSDualHttpBinding binding = new WSDualHttpBinding();
                 binding.OpenTimeout = new TimeSpan(0, 0, 5);
+                binding.SendTimeout = new TimeSpan(0, 0, 5);
+                binding.ReceiveTimeout = new TimeSpan(0, 0, 5);
+                binding.CloseTimeout = new TimeSpan(0, 0, 5);
                 string serviceURL = ParametersHelper.Read().ServiceAddress;
                 Uri address = new Uri(serviceURL);
                 EndpointAddress endpoint = new EndpointAddress(address, EndpointIdentity.CreateDnsIdentity("localhost"));
@@ -66,7 +69,7 @@ namespace DoctorsView.API
                 if (!DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()))
                 {
                     serviceConnectionNotEstablished = ex;
-                    MessageBox.Show("Connection to the service could no be established", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(StaticDetails.OpenServerConnectionErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
 
@@ -104,8 +107,15 @@ namespace DoctorsView.API
         {
             if (!QueueData.ConnectionEstablished)
             {
-                await _QueueMessage.ConnectAsync(User.Id, QueueData.RoomNo, User.Login, true);
-                await _QueueMessage.GetQueueDataAsync(User.Id, null);
+                try
+                {
+                    await _QueueMessage.ConnectAsync(User.Id, QueueData.RoomNo, User.Login, true);
+                    await _QueueMessage.GetQueueDataAsync(User.Id, null);
+                }
+                catch (System.TimeoutException)
+                {
+                    MessageBox.Show(StaticDetails.TimeoutExceptionMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -114,8 +124,16 @@ namespace DoctorsView.API
             if (QueueData.ConnectionEstablished)
             {
                 QueueData.QueueNo++;
-                QueueData.IsBreak = false;
-                _QueueMessage.ReceiveQueueNo(User.Id, QueueData.QueueNo, QueueData.UserInitials);
+                try
+                {
+                    _QueueMessage.ReceiveQueueNo(User.Id, QueueData.QueueNo, QueueData.UserInitials);
+                    QueueData.IsBreak = false;
+                }
+                catch (System.TimeoutException)
+                {
+                    QueueData.QueueNo--;
+                    MessageBox.Show(StaticDetails.TimeoutExceptionMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -124,8 +142,16 @@ namespace DoctorsView.API
             if (QueueData.ConnectionEstablished && QueueData.QueueNo > 1)
             {
                 QueueData.QueueNo--;
-                QueueData.IsBreak = false;
-                _QueueMessage.ReceiveQueueNo(User.Id, QueueData.QueueNo, QueueData.UserInitials);
+                try
+                {
+                    _QueueMessage.ReceiveQueueNo(User.Id, QueueData.QueueNo, QueueData.UserInitials);
+                    QueueData.IsBreak = false;
+                }
+                catch (System.TimeoutException)
+                {
+                    QueueData.QueueNo++;
+                    MessageBox.Show(StaticDetails.TimeoutExceptionMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -133,31 +159,46 @@ namespace DoctorsView.API
         {
             if (QueueData.ConnectionEstablished)
             {
-                string newQueueNo = number;
-                newQueueNo.Replace(" ", string.Empty);
-                int newNumber = Convert.ToInt32(newQueueNo);
-
-                _QueueMessage.ReceiveQueueNo(User.Id, newNumber, QueueData.UserInitials);
-
-                if (newQueueNo == "-1")
+                try
                 {
-                    QueueData.IsBreak = true;
+                    string newQueueNo = number;
+                    newQueueNo.Replace(" ", string.Empty);
+                    int newNumber = Convert.ToInt32(newQueueNo);
+
+                    _QueueMessage.ReceiveQueueNo(User.Id, newNumber, QueueData.UserInitials);
+
+                    if (newQueueNo == "-1")
+                    {
+                        QueueData.IsBreak = true;
+                    }
+                    else
+                    {
+                        QueueData.QueueNo = newNumber;
+                        QueueData.IsBreak = false;
+                    }
                 }
-                else
+                catch (System.TimeoutException)
                 {
-                    QueueData.QueueNo = newNumber;
-                    QueueData.IsBreak = false;
+                    MessageBox.Show(StaticDetails.TimeoutExceptionMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+
             }
         }
 
         public void SendAdditionalMessage(string additionalMessage)
         {
-            if (QueueData.ConnectionEstablished)
+            try
             {
-                QueueData.AdditionalMessage = additionalMessage;
-                _QueueMessage.ReceiveAdditionalMessage(User.Id, QueueData.AdditionalMessage);
+                if (QueueData.ConnectionEstablished)
+                {
+                    _QueueMessage.ReceiveAdditionalMessage(User.Id, additionalMessage);
+                }
             }
+            catch (System.TimeoutException)
+            {
+                MessageBox.Show(StaticDetails.TimeoutExceptionMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
 
         #region Callbacks
