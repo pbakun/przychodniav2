@@ -208,5 +208,24 @@ namespace QueueSystem.Contract
                 Console.WriteLine(ex.Message);
             }
         }
+
+        public void Livebit(bool bit)
+        {
+            IQueueMessageCallback registeredUser = OperationContext.Current.GetCallbackChannel<IQueueMessageCallback>();
+            var user = _callbackList.Where(r => r.RegisteredUser == registeredUser).Select(u => u.QueueData.Owner).FirstOrDefault();
+            Console.WriteLine("Livebit from {0}", user);
+            try
+            {
+                _callbackList.Where(r => r.RegisteredUser == registeredUser).Select(c => c.RegisteredUser).ToList().ForEach(
+                delegate (IQueueMessageCallback callback) {
+                    callback.NotifyServerAlive();
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("ERROR in callback NotifyOfReceivedQueueNo: ");
+                Console.WriteLine(ex.Message);
+            }
+        }
     }
 }

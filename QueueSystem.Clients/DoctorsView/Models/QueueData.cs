@@ -133,6 +133,17 @@ namespace DoctorsView.Models
             }
         }
 
+        private bool connectionOpened;
+
+        public bool ConnectionOpened
+        {
+            get { return connectionOpened; }
+            set { connectionOpened = value;
+                OnPropertyChange(nameof(ConnectionOpened));
+            }
+        }
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

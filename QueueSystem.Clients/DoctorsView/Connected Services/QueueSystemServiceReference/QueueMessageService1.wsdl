@@ -31,6 +31,12 @@
   <wsdl:message name="Contract_GetQueueData_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetQueueDataResponse" />
   </wsdl:message>
+  <wsdl:message name="Contract_Livebit_InputMessage">
+    <wsdl:part name="parameters" element="tns:Livebit" />
+  </wsdl:message>
+  <wsdl:message name="Contract_Livebit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LivebitResponse" />
+  </wsdl:message>
   <wsdl:message name="Contract_NotifyOfEstablishedConnection_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:NotifyOfEstablishedConnection" />
   </wsdl:message>
@@ -45,6 +51,9 @@
   </wsdl:message>
   <wsdl:message name="Contract_NotifyClientWithQueueData_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:NotifyClientWithQueueData" />
+  </wsdl:message>
+  <wsdl:message name="Contract_NotifyServerAlive_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:NotifyServerAlive" />
   </wsdl:message>
   <wsdl:portType msc:usingSession="true" name="Contract">
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Connect">
@@ -65,6 +74,10 @@
       <wsdl:input wsaw:Action="QueueSystem.Contract/Contract/GetQueueData" message="tns:Contract_GetQueueData_InputMessage" />
       <wsdl:output wsaw:Action="QueueSystem.Contract/Contract/GetQueueDataResponse" message="tns:Contract_GetQueueData_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Livebit">
+      <wsdl:input wsaw:Action="QueueSystem.Contract/Contract/Livebit" message="tns:Contract_Livebit_InputMessage" />
+      <wsdl:output wsaw:Action="QueueSystem.Contract/Contract/LivebitResponse" message="tns:Contract_Livebit_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="NotifyOfEstablishedConnection">
       <wsdl:output wsaw:Action="QueueSystem.Contract/Contract/NotifyOfEstablishedConnection" message="tns:Contract_NotifyOfEstablishedConnection_OutputCallbackMessage" />
     </wsdl:operation>
@@ -79,6 +92,9 @@
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="NotifyClientWithQueueData">
       <wsdl:output wsaw:Action="QueueSystem.Contract/Contract/NotifyClientWithQueueData" message="tns:Contract_NotifyClientWithQueueData_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="NotifyServerAlive">
+      <wsdl:output wsaw:Action="QueueSystem.Contract/Contract/NotifyServerAlive" message="tns:Contract_NotifyServerAlive_OutputCallbackMessage" />
     </wsdl:operation>
   </wsdl:portType>
 </wsdl:definitions>

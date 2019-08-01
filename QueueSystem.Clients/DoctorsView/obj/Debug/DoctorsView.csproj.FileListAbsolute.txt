@@ -111,7 +111,6 @@ C:\_Kod\Przychodnia\przychodniav2\QueueSystem.Clients\DoctorsView\bin\Debug\SQLi
 C:\_Kod\Przychodnia\przychodniav2\QueueSystem.Clients\DoctorsView\bin\Debug\SQLitePCLRaw.core.dll
 C:\_Kod\Przychodnia\przychodniav2\QueueSystem.Clients\DoctorsView\bin\Debug\SQLitePCLRaw.provider.e_sqlite3.dll
 C:\_Kod\Przychodnia\przychodniav2\QueueSystem.Clients\DoctorsView\bin\Debug\SQLite-net.xml
-C:\_Kod\Przychodnia\przychodniav2\QueueSystem.Clients\DoctorsView\obj\Debug\DoctorsView.csprojAssemblyReference.cache
 C:\_Kod\Przychodnia\przychodniav2\QueueSystem.Clients\DoctorsView\obj\Debug\DoctorsWindow.g.cs
 C:\_Kod\Przychodnia\przychodniav2\QueueSystem.Clients\DoctorsView\obj\Debug\MainWindow.g.cs
 C:\_Kod\Przychodnia\przychodniav2\QueueSystem.Clients\DoctorsView\obj\Debug\View\LoginWindow.g.cs
@@ -132,3 +131,4 @@ C:\_Kod\Przychodnia\przychodniav2\QueueSystem.Clients\DoctorsView\obj\Debug\Doct
 C:\_Kod\Przychodnia\przychodniav2\QueueSystem.Clients\DoctorsView\obj\Debug\DoctorsView.csproj.CopyComplete
 C:\_Kod\Przychodnia\przychodniav2\QueueSystem.Clients\DoctorsView\obj\Debug\DoctorsView.exe
 C:\_Kod\Przychodnia\przychodniav2\QueueSystem.Clients\DoctorsView\obj\Debug\DoctorsView.pdb
+c:\_Kod\Przychodnia\przychodniav2\QueueSystem.Clients\DoctorsView\obj\Debug\DoctorsView.csprojAssemblyReference.cache

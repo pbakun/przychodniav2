@@ -10,6 +10,7 @@
       <xs:element minOccurs="0" name="Timestamp" type="xs:dateTime" />
       <xs:element minOccurs="0" name="UserId" type="xs:int" />
       <xs:element minOccurs="0" name="UserInitials" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="isBreak" type="xs:boolean" />
       <xs:element minOccurs="0" name="isSenderActive" type="xs:boolean" />
     </xs:sequence>
   </xs:complexType>

@@ -29,5 +29,8 @@ namespace QueueSystem.Contract
 
         [OperationContract]
         void GetQueueData(int? userId = null, int? roomNo = null);
+
+        [OperationContract]
+        void Livebit(bool bit);
     }
 }

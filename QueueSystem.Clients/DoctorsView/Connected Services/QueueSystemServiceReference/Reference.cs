@@ -47,6 +47,9 @@ namespace DoctorsView.QueueSystemServiceReference {
         private string UserInitialsField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool isBreakField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool isSenderActiveField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
@@ -164,6 +167,19 @@ namespace DoctorsView.QueueSystemServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool isBreak {
+            get {
+                return this.isBreakField;
+            }
+            set {
+                if ((this.isBreakField.Equals(value) != true)) {
+                    this.isBreakField = value;
+                    this.RaisePropertyChanged("isBreak");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public bool isSenderActive {
             get {
                 return this.isSenderActiveField;
@@ -219,6 +235,12 @@ namespace DoctorsView.QueueSystemServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="QueueSystem.Contract/Contract/GetQueueData", ReplyAction="QueueSystem.Contract/Contract/GetQueueDataResponse")]
         System.Threading.Tasks.Task GetQueueDataAsync(System.Nullable<int> userId, System.Nullable<int> roomNo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="QueueSystem.Contract/Contract/Livebit", ReplyAction="QueueSystem.Contract/Contract/LivebitResponse")]
+        void Livebit(bool bit);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="QueueSystem.Contract/Contract/Livebit", ReplyAction="QueueSystem.Contract/Contract/LivebitResponse")]
+        System.Threading.Tasks.Task LivebitAsync(bool bit);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -238,6 +260,9 @@ namespace DoctorsView.QueueSystemServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="QueueSystem.Contract/Contract/NotifyClientWithQueueData")]
         void NotifyClientWithQueueData(DoctorsView.QueueSystemServiceReference.QueueData queue);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="QueueSystem.Contract/Contract/NotifyServerAlive")]
+        void NotifyServerAlive();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -306,6 +331,14 @@ namespace DoctorsView.QueueSystemServiceReference {
         
         public System.Threading.Tasks.Task GetQueueDataAsync(System.Nullable<int> userId, System.Nullable<int> roomNo) {
             return base.Channel.GetQueueDataAsync(userId, roomNo);
+        }
+        
+        public void Livebit(bool bit) {
+            base.Channel.Livebit(bit);
+        }
+        
+        public System.Threading.Tasks.Task LivebitAsync(bool bit) {
+            return base.Channel.LivebitAsync(bit);
         }
     }
 }

@@ -23,5 +23,8 @@ namespace QueueSystem.Contract
 
         [OperationContract(IsOneWay = true)]
         void NotifyClientWithQueueData(QueueData queue);
+
+        [OperationContract(IsOneWay = true)]
+        void NotifyServerAlive();
     }
 }

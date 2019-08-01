@@ -17,13 +17,21 @@ namespace DoctorsView.API
     [CallbackBehavior(
            ConcurrencyMode = ConcurrencyMode.Single,
            UseSynchronizationContext = false)]
-    public class QueueServiceAPI : QueueSystemServiceReference.ContractCallback, IQueueService
+    public class QueueServiceAPI : QueueSystemServiceReference.ContractCallback, IQueueService, INotifyPropertyChanged
     {
         public static QueueSystemServiceReference.ContractClient _QueueMessage;
 
-        private bool serviceConnectionOpened;
         private Exception serviceConnectionNotEstablished;
         private SynchronizationContext _uiSyncContext = null;
+
+
+        #region PropertyChange handlers
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChange(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
 
         private QueueData QueueData { get; set; }
         private User User { get; set; }
@@ -50,17 +58,18 @@ namespace DoctorsView.API
                 binding.OpenTimeout = new TimeSpan(0, 0, 5);
                 binding.SendTimeout = new TimeSpan(0, 0, 5);
                 binding.ReceiveTimeout = new TimeSpan(0, 0, 5);
-                binding.CloseTimeout = new TimeSpan(0, 0, 5);
+                binding.CloseTimeout = new TimeSpan(0, 0, 1);
                 string serviceURL = ParametersHelper.Read().ServiceAddress;
                 Uri address = new Uri(serviceURL);
                 EndpointAddress endpoint = new EndpointAddress(address, EndpointIdentity.CreateDnsIdentity("localhost"));
 
                 _QueueMessage = new QueueSystemServiceReference.ContractClient(instanceContext, binding, endpoint);
                 //_QueueMessage = new QueueSystemServiceReference.ContractClient(instanceContext, "WSDualHttpBinding_Contract");
-                if (!serviceConnectionOpened)
+                if (!QueueData.ConnectionOpened)
                 {
                     _QueueMessage.Open();
-                    serviceConnectionOpened = true;
+                    QueueData.ConnectionOpened = true;
+                    StartLiveBit();
                 }
 
             }
@@ -77,9 +86,9 @@ namespace DoctorsView.API
 
         public void CloseConnection()
         {
-            if(serviceConnectionOpened)
+            if(QueueData.ConnectionOpened)
                 _QueueMessage.Close();
-            serviceConnectionOpened = false;
+            QueueData.ConnectionOpened = false;
         }
 
         //is sets to true to disconnect when window is closing
@@ -201,6 +210,34 @@ namespace DoctorsView.API
 
         }
 
+        #region LiveBit
+        private System.Timers.Timer LiveBitTimer;
+        private int liveBitFailCounter;
+        private void StartLiveBit()
+        {
+            try
+            {
+                //make it error proof / specially during shutdown!!!
+                _QueueMessage.Livebit(true);
+            }
+            catch (System.TimeoutException)
+            {
+                liveBitFailCounter++;
+            }
+            LiveBitTimer = new System.Timers.Timer(5000);
+            LiveBitTimer.Elapsed += LiveBitTimer_Elapsed;
+            LiveBitTimer.Start();
+
+        }
+
+        private void LiveBitTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            LiveBitTimer.Stop();
+            StartLiveBit();
+        }
+
+        #endregion
+
         #region Callbacks
 
         public void NotifyClientDisconnected(string userName)
@@ -253,6 +290,16 @@ namespace DoctorsView.API
             QueueData.QueueNoMessage = queue.QueueNoMessage;
             QueueData.AdditionalMessage = queue.AdditionalMessage;
             _uiSyncContext.Post(callback, queue);
+        }
+
+        public void NotifyServerAlive()
+        {
+            SendOrPostCallback callback = delegate (object state)
+            {
+
+            };
+            QueueData.ConnectionOpened = true;
+            _uiSyncContext.Post(callback, true);
         }
 
         #endregion
