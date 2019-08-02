@@ -15,13 +15,19 @@
     <StackPanel DataContext="{StaticResource vm}"
                 Margin="10">
 
-        <Label Content="Adres serwera"/>
+        <Label Content="Adres serwera:"/>
         <TextBox Text="{Binding AppParameters.ServiceAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  Margin="5"
                  Width="250"/>
 
-        <Label Content="Numer pokoju"/>
+        <Label Content="Numer pokoju:"/>
         <TextBox Text="{Binding AppParameters.RoomNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 PreviewTextInput="NumberValidation_PreviewTextBox"
+                 Margin="5"
+                 Width="250"/>
+
+        <Label Content="Ilość zapytań do serwera przed odłączeniem usługi:"/>
+        <TextBox Text="{Binding AppParameters.ServerConnectionRetries, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  PreviewTextInput="NumberValidation_PreviewTextBox"
                  Margin="5"
                  Width="250"/>

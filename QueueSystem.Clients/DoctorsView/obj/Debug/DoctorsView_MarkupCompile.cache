@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-c:\_Kod\Przychodnia\przychodniav2\QueueSystem.Clients\DoctorsView\obj\Debug\
+C:\_Moje\C#\Przychodnia\QueueSystem.Clients\DoctorsView\obj\Debug\
 DoctorsView
 none
 false
 DEBUG;TRACE
-c:\_Kod\Przychodnia\przychodniav2\QueueSystem.Clients\DoctorsView\App.xaml
+C:\_Moje\C#\Przychodnia\QueueSystem.Clients\DoctorsView\App.xaml
 41405171770
-2-1454586744
-411498596319
-731056385635
+2-1485821881
+42-660633182
+731956249304
 DoctorsWindow.xaml;MainWindow.xaml;View\LoginWindow.xaml;View\OptionsWindow.xaml;
 
 False

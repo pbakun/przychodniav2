@@ -23,7 +23,7 @@ namespace DoctorsView.API
 
         private Exception serviceConnectionNotEstablished;
         private SynchronizationContext _uiSyncContext = null;
-
+        private System.Timers.Timer RetryConnectionTimer;
 
         #region PropertyChange handlers
         public event PropertyChangedEventHandler PropertyChanged;
@@ -64,13 +64,24 @@ namespace DoctorsView.API
                 EndpointAddress endpoint = new EndpointAddress(address, EndpointIdentity.CreateDnsIdentity("localhost"));
 
                 _QueueMessage = new QueueSystemServiceReference.ContractClient(instanceContext, binding, endpoint);
-                //_QueueMessage = new QueueSystemServiceReference.ContractClient(instanceContext, "WSDualHttpBinding_Contract");
+
                 if (!QueueData.ConnectionOpened)
                 {
                     _QueueMessage.Open();
                     QueueData.ConnectionOpened = true;
+
+                    //counter to count fail livebit messages and stop livebit sending after desired fault messages
+                    liveBitFailCounter = new Counter(ParametersHelper.Read().ServerConnectionRetries);
+                    liveBitFailCounter.ThresholdReached += LiveBitFailCounter_ThresholdReached;
                     StartLiveBit();
                 }
+
+            }
+            catch (System.ServiceModel.EndpointNotFoundException)
+            {
+                RetryConnectionTimer = new System.Timers.Timer(5000);
+                RetryConnectionTimer.Elapsed += RetryConnectionTimer_Elapsed;
+                RetryConnectionTimer.Start();
 
             }
             catch (Exception ex)
@@ -82,6 +93,13 @@ namespace DoctorsView.API
                 }
             }
 
+
+        }
+
+        private void RetryConnectionTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            RetryConnectionTimer.Stop();
+            InitializeConnection();
         }
 
         public void CloseConnection()
@@ -210,9 +228,9 @@ namespace DoctorsView.API
 
         }
 
-        #region LiveBit
+        #region LiveBit handling
         private System.Timers.Timer LiveBitTimer;
-        private int liveBitFailCounter;
+        private Counter liveBitFailCounter;
         private void StartLiveBit()
         {
             try
@@ -222,12 +240,19 @@ namespace DoctorsView.API
             }
             catch (System.TimeoutException)
             {
-                liveBitFailCounter++;
+                liveBitFailCounter.CountUp();
             }
             LiveBitTimer = new System.Timers.Timer(5000);
             LiveBitTimer.Elapsed += LiveBitTimer_Elapsed;
             LiveBitTimer.Start();
 
+        }
+
+        private void LiveBitFailCounter_ThresholdReached(object sender, EventArgs e)
+        {
+            LiveBitTimer.Stop();
+            _QueueMessage.Abort();
+            QueueData.ConnectionOpened = false;
         }
 
         private void LiveBitTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)

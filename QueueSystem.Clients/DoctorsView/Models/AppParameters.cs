@@ -15,7 +15,9 @@ namespace DoctorsView.Models
         public int RoomNo
         {
             get { return roomNo; }
-            set { roomNo = value;
+            set
+            {
+                roomNo = value;
                 OnPropertyChange(nameof(RoomNo));
             }
         }
@@ -25,10 +27,25 @@ namespace DoctorsView.Models
         public string ServiceAddress
         {
             get { return serviceAddress; }
-            set { serviceAddress = value;
+            set
+            {
+                serviceAddress = value;
                 OnPropertyChange(nameof(ServiceAddress));
             }
         }
+
+        private int serverConnectionRetries;
+
+        public int ServerConnectionRetries
+        {
+            get { return serverConnectionRetries; }
+            set
+            {
+                serverConnectionRetries = value;
+                OnPropertyChange(nameof(ServerConnectionRetries));
+            }
+        }
+
 
 
         public event PropertyChangedEventHandler PropertyChanged;
