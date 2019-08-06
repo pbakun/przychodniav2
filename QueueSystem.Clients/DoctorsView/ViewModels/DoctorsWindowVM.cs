@@ -44,7 +44,7 @@ namespace DoctorsView.ViewModels
                 isActive = true,
                 Email = "baksoncontrolpb@gmail.com"
             };
-
+            
             
             //Create new QueueData with default values and initials in
             _queueData = new QueueDataBuilder().WithUserInitials(String.Concat(_user.FirstName.First(), _user.LastName.First())).WithRoomNo(12).Build();
@@ -97,9 +97,12 @@ namespace DoctorsView.ViewModels
                 }
             }
             //always maintain consistent break btn isChecked status with break status from the service
-            ViewData.IsBreak = queue.IsBreak;
-            ViewData.QueueNoMessage = queue.QueueNoMessage;
-            ViewData.AdditionalMessageHelper = queue.AdditionalMessage;
+            if (e.PropertyName.Equals(nameof(queue.IsBreak)))
+                ViewData.IsBreak = queue.IsBreak;
+            if (e.PropertyName.Equals(nameof(queue.QueueNoMessage)))
+                ViewData.QueueNoMessage = queue.QueueNoMessage;
+            if(e.PropertyName.Equals(nameof(queue.AdditionalMessage)))
+                ViewData.AdditionalMessageHelper = queue.AdditionalMessage;
             
             
         }
@@ -180,7 +183,7 @@ namespace DoctorsView.ViewModels
         }
 
         //Called on window closing event
-        internal void WindowClosing()
+        public void WindowClosing()
         {
             try
             {

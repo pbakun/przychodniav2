@@ -8,6 +8,6 @@ namespace DoctorsView.Interfaces
 {
     public interface IViewModel
     {
-
+        void WindowClosing();
     }
 }

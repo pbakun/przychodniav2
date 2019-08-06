@@ -30,9 +30,7 @@ namespace DoctorsView
 
     public partial class DoctorsWindow : Window, IView
     {
-        private readonly User _user;
-
-
+        private readonly Models.User _user;
 
         public IViewModel VM
         {
@@ -50,21 +48,13 @@ namespace DoctorsView
         {
             InitializeComponent();
             VM = vm;
-            using (SQLiteConnection connection = new SQLiteConnection(StaticDetails.userDatabasePath))
-            {
-                // _user = connection.Table<User>().Where(u => u.Id == id).FirstOrDefault();
-                // userInfoLabel.Content = "Witaj " + _user.FirstName + " " + _user.LastName;
-                //_queueData.UserInitials = _user.FirstName.FirstOrDefault().ToString() + _user.LastName.FirstOrDefault();
-            }
-            //VM = this.Resources["vm"] as DoctorsWindowVM;
-            //container.DataContext = VM;
-
+            
             this.Closing += DoctorsWindow_Closing;
         }
 
         private void DoctorsWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-           // VM.WindowClosing();
+            VM.WindowClosing();
         }
 
         //PrevievInputText event handler - passes only numeric input

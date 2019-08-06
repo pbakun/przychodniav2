@@ -140,7 +140,6 @@
                 Style="{StaticResource ToggleButtonStyle}"
                 Grid.Column="5"
                 Grid.Row="2"/>
-            <Button Command="{Binding _connectCommand}"/>
 
             <Label Content="Nadpisz Numer:"
                Style="{StaticResource LabelAlignmentInGrid}"

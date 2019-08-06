@@ -227,5 +227,15 @@ namespace QueueSystem.Contract
                 Console.WriteLine(ex.Message);
             }
         }
+
+        public User CheckUser(string username, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RegisterUser(User user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

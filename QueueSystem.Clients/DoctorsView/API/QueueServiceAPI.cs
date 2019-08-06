@@ -30,15 +30,31 @@ namespace DoctorsView.API
         private void OnPropertyChange(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            
+            if (_queueData != null && propertyName.Equals(nameof(ConnectionStatus)))
+            {
+                _queueData.ConnectionOpened = connectionStatus;
+            }
         }
         #endregion
 
         private QueueData _queueData { get; set; }
         private User _user { get; set; }
 
+        private bool connectionStatus;
+        public bool ConnectionStatus
+        {
+            get { return connectionStatus; }
+            set
+            {
+                connectionStatus = value;
+                OnPropertyChange(nameof(ConnectionStatus));
+            }
+        }
+
         public QueueServiceAPI()
         {
-  
+            
         }
 
         public void SetData(QueueData queueData, User user)
@@ -69,10 +85,10 @@ namespace DoctorsView.API
 
                 _QueueMessage = new QueueSystemServiceReference.ContractClient(instanceContext, binding, endpoint);
 
-                if (!_queueData.ConnectionOpened)
+                if (!ConnectionStatus)
                 {
                     _QueueMessage.Open();
-                    _queueData.ConnectionOpened = true;
+                    ConnectionStatus = true;
 
                     //counter to count fail livebit messages and stop livebit sending after desired fault messages
                     liveBitFailCounter = new Counter(ParametersHelper.Read().ServerConnectionRetries);
@@ -108,9 +124,9 @@ namespace DoctorsView.API
 
         public void CloseConnection()
         {
-            if(_queueData.ConnectionOpened)
+            if (ConnectionStatus)
                 _QueueMessage.Close();
-            _queueData.ConnectionOpened = false;
+            ConnectionStatus = false;
         }
 
         //is sets to true to disconnect when window is closing
@@ -256,7 +272,7 @@ namespace DoctorsView.API
         {
             LiveBitTimer.Stop();
             _QueueMessage.Abort();
-            _queueData.ConnectionOpened = false;
+            ConnectionStatus = false;
         }
 
         private void LiveBitTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -278,7 +294,7 @@ namespace DoctorsView.API
         {
             SendOrPostCallback callback = delegate (object state)
             {
-                if(state.ToString() == _user.Login)
+                if (state.ToString() == _user.Login)
                 {
                     _queueData.Owner = state.ToString();
                     _queueData.ConnectionEstablished = true;
@@ -327,7 +343,7 @@ namespace DoctorsView.API
             {
 
             };
-            _queueData.ConnectionOpened = true;
+            ConnectionStatus = true;
             _uiSyncContext.Post(callback, true);
         }
 

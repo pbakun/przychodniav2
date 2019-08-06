@@ -131,4 +131,6 @@ C:\_Kod\Przychodnia\przychodniav2\QueueSystem.Clients\DoctorsView\obj\Debug\Doct
 C:\_Kod\Przychodnia\przychodniav2\QueueSystem.Clients\DoctorsView\obj\Debug\DoctorsView.csproj.CopyComplete
 C:\_Kod\Przychodnia\przychodniav2\QueueSystem.Clients\DoctorsView\obj\Debug\DoctorsView.exe
 C:\_Kod\Przychodnia\przychodniav2\QueueSystem.Clients\DoctorsView\obj\Debug\DoctorsView.pdb
+C:\_Kod\Przychodnia\przychodniav2\QueueSystem.Clients\DoctorsView\bin\Debug\Ninject.dll
+C:\_Kod\Przychodnia\przychodniav2\QueueSystem.Clients\DoctorsView\bin\Debug\Ninject.xml
 c:\_Kod\Przychodnia\przychodniav2\QueueSystem.Clients\DoctorsView\obj\Debug\DoctorsView.csprojAssemblyReference.cache

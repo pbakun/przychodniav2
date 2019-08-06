@@ -173,6 +173,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Connected Services\QueueSystemServiceReference\DoctorsView.QueueSystemServiceReference.User.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\QueueSystemServiceReference\QueueMessageService.wsdl" />
     <None Include="Connected Services\QueueSystemServiceReference\QueueMessageService.xsd">
       <SubType>Designer</SubType>
@@ -182,6 +185,12 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\QueueSystemServiceReference\QueueMessageService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\QueueSystemServiceReference\QueueMessageService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\QueueSystemServiceReference\QueueMessageService31.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />

@@ -4,7 +4,9 @@
     <xsd:schema targetNamespace="QueueSystem.Contract/Imports">
       <xsd:import schemaLocation="http://localhost:6666/QueueMessageService?xsd=xsd0" namespace="QueueSystem.Contract" />
       <xsd:import schemaLocation="http://localhost:6666/QueueMessageService?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import schemaLocation="http://localhost:6666/QueueMessageService?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/QueueSystem.Contract" />
+      <xsd:import schemaLocation="http://localhost:6666/QueueMessageService?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/QueueSystem.Contract.Models" />
+      <xsd:import schemaLocation="http://localhost:6666/QueueMessageService?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://localhost:6666/QueueMessageService?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/QueueSystem.Contract" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="Contract_Connect_InputMessage">
@@ -36,6 +38,18 @@
   </wsdl:message>
   <wsdl:message name="Contract_Livebit_OutputMessage">
     <wsdl:part name="parameters" element="tns:LivebitResponse" />
+  </wsdl:message>
+  <wsdl:message name="Contract_CheckUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:CheckUser" />
+  </wsdl:message>
+  <wsdl:message name="Contract_CheckUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CheckUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="Contract_RegisterUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterUser" />
+  </wsdl:message>
+  <wsdl:message name="Contract_RegisterUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterUserResponse" />
   </wsdl:message>
   <wsdl:message name="Contract_NotifyOfEstablishedConnection_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:NotifyOfEstablishedConnection" />
@@ -77,6 +91,14 @@
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Livebit">
       <wsdl:input wsaw:Action="QueueSystem.Contract/Contract/Livebit" message="tns:Contract_Livebit_InputMessage" />
       <wsdl:output wsaw:Action="QueueSystem.Contract/Contract/LivebitResponse" message="tns:Contract_Livebit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="CheckUser">
+      <wsdl:input wsaw:Action="QueueSystem.Contract/Contract/CheckUser" message="tns:Contract_CheckUser_InputMessage" />
+      <wsdl:output wsaw:Action="QueueSystem.Contract/Contract/CheckUserResponse" message="tns:Contract_CheckUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="RegisterUser">
+      <wsdl:input wsaw:Action="QueueSystem.Contract/Contract/RegisterUser" message="tns:Contract_RegisterUser_InputMessage" />
+      <wsdl:output wsaw:Action="QueueSystem.Contract/Contract/RegisterUserResponse" message="tns:Contract_RegisterUser_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="NotifyOfEstablishedConnection">
       <wsdl:output wsaw:Action="QueueSystem.Contract/Contract/NotifyOfEstablishedConnection" message="tns:Contract_NotifyOfEstablishedConnection_OutputCallbackMessage" />

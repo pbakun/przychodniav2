@@ -197,7 +197,9 @@ namespace DoctorsView.ViewModels
             return false;
         }
 
-
-
+        public void WindowClosing()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

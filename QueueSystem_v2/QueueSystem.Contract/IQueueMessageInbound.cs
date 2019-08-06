@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QueueSystem.Contract.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
@@ -32,5 +33,13 @@ namespace QueueSystem.Contract
 
         [OperationContract]
         void Livebit(bool bit);
+
+        #region Login
+        [OperationContract]
+        User CheckUser(string username, string password);
+
+        [OperationContract]
+        bool RegisterUser(User user);
+        #endregion
     }
 }
