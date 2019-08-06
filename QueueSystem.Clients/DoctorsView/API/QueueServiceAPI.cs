@@ -17,7 +17,7 @@ namespace DoctorsView.API
     [CallbackBehavior(
            ConcurrencyMode = ConcurrencyMode.Single,
            UseSynchronizationContext = false)]
-    public class QueueServiceAPI : QueueSystemServiceReference.ContractCallback, IQueueService, INotifyPropertyChanged
+    public class QueueServiceAPI : QueueSystemServiceReference.ContractCallback, INotifyPropertyChanged, IQueueServiceAPI
     {
         public static QueueSystemServiceReference.ContractClient _QueueMessage;
 
@@ -33,16 +33,20 @@ namespace DoctorsView.API
         }
         #endregion
 
-        private QueueData QueueData { get; set; }
-        private User User { get; set; }
+        private QueueData _queueData { get; set; }
+        private User _user { get; set; }
 
-        public QueueServiceAPI(QueueData _queueData, User _user)
+        public QueueServiceAPI()
         {
-            QueueData = _queueData;
+  
+        }
+
+        public void SetData(QueueData queueData, User user)
+        {
+            _queueData = queueData;
             //QueueData = new QueueDataBuilder().WithUserInitials(String.Concat(_user.FirstName.First(), _user.LastName.First())).WithRoomNo(12).Build();
-            User = _user;
+            _user = user;
             InitializeConnection();
-            
         }
 
         private void InitializeConnection()
@@ -65,10 +69,10 @@ namespace DoctorsView.API
 
                 _QueueMessage = new QueueSystemServiceReference.ContractClient(instanceContext, binding, endpoint);
 
-                if (!QueueData.ConnectionOpened)
+                if (!_queueData.ConnectionOpened)
                 {
                     _QueueMessage.Open();
-                    QueueData.ConnectionOpened = true;
+                    _queueData.ConnectionOpened = true;
 
                     //counter to count fail livebit messages and stop livebit sending after desired fault messages
                     liveBitFailCounter = new Counter(ParametersHelper.Read().ServerConnectionRetries);
@@ -104,23 +108,23 @@ namespace DoctorsView.API
 
         public void CloseConnection()
         {
-            if(QueueData.ConnectionOpened)
+            if(_queueData.ConnectionOpened)
                 _QueueMessage.Close();
-            QueueData.ConnectionOpened = false;
+            _queueData.ConnectionOpened = false;
         }
 
         //is sets to true to disconnect when window is closing
         public void Disconnect(bool connectionStatus = false)
         {
             if (!connectionStatus)
-                connectionStatus = QueueData.ConnectionEstablished;
+                connectionStatus = _queueData.ConnectionEstablished;
 
             try
             {
                 if (connectionStatus)
                 {
-                    _QueueMessage.Disconnect(User.Id, User.Login);
-                    QueueData.ConnectionEstablished = false;
+                    _QueueMessage.Disconnect(_user.Id, _user.Login);
+                    _queueData.ConnectionEstablished = false;
                 }
 
             }
@@ -132,12 +136,12 @@ namespace DoctorsView.API
 
         public async void EstablishConnection()
         {
-            if (!QueueData.ConnectionEstablished)
+            if (!_queueData.ConnectionEstablished)
             {
                 try
                 {
-                    await _QueueMessage.ConnectAsync(User.Id, QueueData.RoomNo, User.Login, true);
-                    await _QueueMessage.GetQueueDataAsync(User.Id, null);
+                    await _QueueMessage.ConnectAsync(_user.Id, _queueData.RoomNo, _user.Login, true);
+                    await _QueueMessage.GetQueueDataAsync(_user.Id, null);
                 }
                 catch (System.TimeoutException)
                 {
@@ -148,17 +152,17 @@ namespace DoctorsView.API
 
         public void NextPerson()
         {
-            if (QueueData.ConnectionEstablished)
+            if (_queueData.ConnectionEstablished)
             {
-                QueueData.QueueNo++;
+                _queueData.QueueNo++;
                 try
                 {
-                    _QueueMessage.ReceiveQueueNo(User.Id, QueueData.QueueNo, QueueData.UserInitials);
-                    QueueData.IsBreak = false;
+                    _QueueMessage.ReceiveQueueNo(_user.Id, _queueData.QueueNo, _queueData.UserInitials);
+                    _queueData.IsBreak = false;
                 }
                 catch (System.TimeoutException)
                 {
-                    QueueData.QueueNo--;
+                    _queueData.QueueNo--;
                     MessageBox.Show(StaticDetails.TimeoutExceptionMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
@@ -166,17 +170,17 @@ namespace DoctorsView.API
 
         public void PreviousPerson()
         {
-            if (QueueData.ConnectionEstablished && QueueData.QueueNo > 1)
+            if (_queueData.ConnectionEstablished && _queueData.QueueNo > 1)
             {
-                QueueData.QueueNo--;
+                _queueData.QueueNo--;
                 try
                 {
-                    _QueueMessage.ReceiveQueueNo(User.Id, QueueData.QueueNo, QueueData.UserInitials);
-                    QueueData.IsBreak = false;
+                    _QueueMessage.ReceiveQueueNo(_user.Id, _queueData.QueueNo, _queueData.UserInitials);
+                    _queueData.IsBreak = false;
                 }
                 catch (System.TimeoutException)
                 {
-                    QueueData.QueueNo++;
+                    _queueData.QueueNo++;
                     MessageBox.Show(StaticDetails.TimeoutExceptionMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
@@ -184,7 +188,7 @@ namespace DoctorsView.API
 
         public void ForceNewQueueNo(string number)
         {
-            if (QueueData.ConnectionEstablished)
+            if (_queueData.ConnectionEstablished)
             {
                 try
                 {
@@ -192,16 +196,16 @@ namespace DoctorsView.API
                     newQueueNo.Replace(" ", string.Empty);
                     int newNumber = Convert.ToInt32(newQueueNo);
 
-                    _QueueMessage.ReceiveQueueNo(User.Id, newNumber, QueueData.UserInitials);
+                    _QueueMessage.ReceiveQueueNo(_user.Id, newNumber, _queueData.UserInitials);
 
                     if (newQueueNo == "-1")
                     {
-                        QueueData.IsBreak = true;
+                        _queueData.IsBreak = true;
                     }
                     else
                     {
-                        QueueData.QueueNo = newNumber;
-                        QueueData.IsBreak = false;
+                        _queueData.QueueNo = newNumber;
+                        _queueData.IsBreak = false;
                     }
                 }
                 catch (System.TimeoutException)
@@ -216,9 +220,9 @@ namespace DoctorsView.API
         {
             try
             {
-                if (QueueData.ConnectionEstablished)
+                if (_queueData.ConnectionEstablished)
                 {
-                    _QueueMessage.ReceiveAdditionalMessage(User.Id, additionalMessage);
+                    _QueueMessage.ReceiveAdditionalMessage(_user.Id, additionalMessage);
                 }
             }
             catch (System.TimeoutException)
@@ -252,7 +256,7 @@ namespace DoctorsView.API
         {
             LiveBitTimer.Stop();
             _QueueMessage.Abort();
-            QueueData.ConnectionOpened = false;
+            _queueData.ConnectionOpened = false;
         }
 
         private void LiveBitTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -274,10 +278,10 @@ namespace DoctorsView.API
         {
             SendOrPostCallback callback = delegate (object state)
             {
-                if(state.ToString() == User.Login)
+                if(state.ToString() == _user.Login)
                 {
-                    QueueData.Owner = state.ToString();
-                    QueueData.ConnectionEstablished = true;
+                    _queueData.Owner = state.ToString();
+                    _queueData.ConnectionEstablished = true;
                 }
             };
 
@@ -290,7 +294,7 @@ namespace DoctorsView.API
             {
 
             };
-            QueueData.AdditionalMessage = additionalMessage;
+            _queueData.AdditionalMessage = additionalMessage;
 
             _uiSyncContext.Post(callback, additionalMessage);
         }
@@ -301,7 +305,7 @@ namespace DoctorsView.API
             {
 
             };
-            QueueData.QueueNoMessage = queueNo;
+            _queueData.QueueNoMessage = queueNo;
             _uiSyncContext.Post(callback, queueNo);
         }
 
@@ -311,9 +315,9 @@ namespace DoctorsView.API
             {
 
             };
-            QueueData.QueueNo = queue.QueueNo;
-            QueueData.QueueNoMessage = queue.QueueNoMessage;
-            QueueData.AdditionalMessage = queue.AdditionalMessage;
+            _queueData.QueueNo = queue.QueueNo;
+            _queueData.QueueNoMessage = queue.QueueNoMessage;
+            _queueData.AdditionalMessage = queue.AdditionalMessage;
             _uiSyncContext.Post(callback, queue);
         }
 
@@ -323,7 +327,7 @@ namespace DoctorsView.API
             {
 
             };
-            QueueData.ConnectionOpened = true;
+            _queueData.ConnectionOpened = true;
             _uiSyncContext.Post(callback, true);
         }
 

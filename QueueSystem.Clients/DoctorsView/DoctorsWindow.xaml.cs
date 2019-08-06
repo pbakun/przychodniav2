@@ -1,4 +1,6 @@
-﻿using DoctorsView.Models;
+﻿using DoctorsView.API;
+using DoctorsView.Interfaces;
+using DoctorsView.Models;
 using DoctorsView.QueueSystemServiceReference;
 using DoctorsView.Utility;
 using DoctorsView.View;
@@ -26,29 +28,43 @@ using System.Windows.Shapes;
 namespace DoctorsView
 {
 
-    public partial class DoctorsWindow : Window
+    public partial class DoctorsWindow : Window, IView
     {
         private readonly User _user;
 
-        private DoctorsWindowVM VM;
-        public DoctorsWindow()
+
+
+        public IViewModel VM
+        {
+            get
+            {
+                return DataContext as IViewModel;
+            }
+            set
+            {
+                DataContext = value;
+            }
+        }
+
+        public DoctorsWindow(DoctorsWindowVM vm)
         {
             InitializeComponent();
-
+            VM = vm;
             using (SQLiteConnection connection = new SQLiteConnection(StaticDetails.userDatabasePath))
             {
                 // _user = connection.Table<User>().Where(u => u.Id == id).FirstOrDefault();
                 // userInfoLabel.Content = "Witaj " + _user.FirstName + " " + _user.LastName;
                 //_queueData.UserInitials = _user.FirstName.FirstOrDefault().ToString() + _user.LastName.FirstOrDefault();
             }
-            VM = this.Resources["vm"] as DoctorsWindowVM;
-            container.DataContext = VM;
+            //VM = this.Resources["vm"] as DoctorsWindowVM;
+            //container.DataContext = VM;
+
             this.Closing += DoctorsWindow_Closing;
         }
 
         private void DoctorsWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            VM.WindowClosing();
+           // VM.WindowClosing();
         }
 
         //PrevievInputText event handler - passes only numeric input

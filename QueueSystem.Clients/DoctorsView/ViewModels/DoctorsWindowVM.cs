@@ -1,5 +1,6 @@
 ﻿using DoctorsView.API;
 using DoctorsView.Commands;
+using DoctorsView.Interfaces;
 using DoctorsView.Models;
 using DoctorsView.Utility;
 using System;
@@ -14,7 +15,7 @@ using System.Windows.Media;
 
 namespace DoctorsView.ViewModels
 {
-    public class DoctorsWindowVM
+    public class DoctorsWindowVM : IViewModel
     {
         public QueueData _queueData { get; set; }
         public User _user { get; set; }
@@ -29,10 +30,11 @@ namespace DoctorsView.ViewModels
 
         public DoctorsViewData ViewData { get; set; }
 
-        private QueueServiceAPI _queueService;
+        private readonly IQueueServiceAPI _queueServiceApi;
 
-        public DoctorsWindowVM()
+        public DoctorsWindowVM(IQueueServiceAPI queueServiceApi)
         {
+            _queueServiceApi = queueServiceApi;
             _user = new User()
             {
                 Id = 1,
@@ -47,7 +49,7 @@ namespace DoctorsView.ViewModels
             //Create new QueueData with default values and initials in
             _queueData = new QueueDataBuilder().WithUserInitials(String.Concat(_user.FirstName.First(), _user.LastName.First())).WithRoomNo(12).Build();
             //Call QueueSystem service
-            _queueService = new QueueServiceAPI(_queueData, _user);
+            _queueServiceApi.SetData(_queueData, _user);
 
             //Commands
             _connectCommand = new ConnectCommand(this);
@@ -109,28 +111,28 @@ namespace DoctorsView.ViewModels
                 //Toggle break status
                 if(!_queueData.IsBreak)
                 {
-                    _queueService.ForceNewQueueNo("-1");
+                    _queueServiceApi.ForceNewQueueNo("-1");
                 }
                 else
                 {
-                    _queueService.ForceNewQueueNo(_queueData.QueueNo.ToString());
+                    _queueServiceApi.ForceNewQueueNo(_queueData.QueueNo.ToString());
                 }
             }
         }
 
         internal void NextPerson()
         {
-            if(_queueService != null && _queueData.ConnectionEstablished)
+            if(_queueServiceApi != null && _queueData.ConnectionEstablished)
             {
-                _queueService.NextPerson();
+                _queueServiceApi.NextPerson();
             }
         }
 
         internal void PreviousPerson()
         {
-            if (_queueService != null && _queueData.ConnectionEstablished)
+            if (_queueServiceApi != null && _queueData.ConnectionEstablished)
             {
-                _queueService.PreviousPerson();
+                _queueServiceApi.PreviousPerson();
             }
         }
 
@@ -138,7 +140,7 @@ namespace DoctorsView.ViewModels
         {
             if (_queueData.ConnectionEstablished && ViewData.NewNumber != null && ViewData.NewNumber.Length>0)
             {
-                _queueService.ForceNewQueueNo(ViewData.NewNumber);
+                _queueServiceApi.ForceNewQueueNo(ViewData.NewNumber);
                 ViewData.NewNumber = string.Empty;
             }
         }
@@ -148,7 +150,7 @@ namespace DoctorsView.ViewModels
             if(_queueData.ConnectionEstablished && ViewData.AdditionalMessageHelper.Length > 0 
                 && ViewData.AdditionalMessageHelper != _queueData.AdditionalMessage)
             {
-                _queueService.SendAdditionalMessage(ViewData.AdditionalMessageHelper);
+                _queueServiceApi.SendAdditionalMessage(ViewData.AdditionalMessageHelper);
             }
         }
 
@@ -156,24 +158,24 @@ namespace DoctorsView.ViewModels
         {
             if (_queueData.ConnectionEstablished)
             {
-                _queueService.SendAdditionalMessage(string.Empty);
+                _queueServiceApi.SendAdditionalMessage(string.Empty);
                 ViewData.AdditionalMessageHelper = string.Empty;
             }
         }
 
         public void Disconnect()
         {
-            if (_queueService != null && _queueData.ConnectionEstablished==true)
+            if (_queueServiceApi != null && _queueData.ConnectionEstablished==true)
             {
-                _queueService.Disconnect();
+                _queueServiceApi.Disconnect();
             }
         }
 
         internal void EstablishConnection()
         {
-            if(_queueService != null)
+            if(_queueServiceApi != null)
             {
-                _queueService.EstablishConnection();
+                _queueServiceApi.EstablishConnection();
             }
         }
 
@@ -184,9 +186,9 @@ namespace DoctorsView.ViewModels
             {
                 if (_queueData.ConnectionEstablished)
                 {
-                    _queueService.Disconnect(true);
+                    _queueServiceApi.Disconnect(true);
                 }
-                _queueService.CloseConnection();
+                _queueServiceApi.CloseConnection();
             }
             catch (Exception ex)
             {

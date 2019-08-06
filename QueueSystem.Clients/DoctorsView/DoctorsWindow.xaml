@@ -11,9 +11,9 @@
         Title="SystemKolejkowy" Height="450" Width="800">
 
     <Window.Resources>
-        <vm:DoctorsWindowVM x:Key="vm"/>
         <conv:BoolToContentConverter x:Key="boolToContentConv"/>
         <conv:BoolToForegroundConverter x:Key="boolToColorConv"/>
+        <local:ViewModelLocator x:Key="ViewModelLocator"/>
 
         <Style TargetType="Label" x:Key="LabelAlignmentInGrid">
             <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -38,7 +38,7 @@
         <ContextMenu x:Key="OptionsContextMenu">
             <MenuItem Header="Connect" 
                       Command="{Binding _connectCommand}"
-                      IsChecked="{Binding Source={StaticResource vm}, Path=_queueData.ConnectionEstablished}"/>
+                      IsChecked="{Binding _queueData.ConnectionEstablished}"/>
             <MenuItem Header="Rozłącz" 
                       Command="{Binding _disconnectCommand}"
                       />
@@ -119,27 +119,28 @@
                VerticalAlignment="Center"
                Grid.Row="2"/>
             <Button x:Name="nextPerson"
-                Command="{Binding Source={StaticResource vm}, Path=_nextPersonCommand}"
+                Command="{Binding _nextPersonCommand}"
                 CommandParameter="{Binding Path=_queueData.ConnectionEstablished}"
                 Content="Next"
                 Style="{StaticResource ButtonStyle}"
                 Grid.Column="4"
                 Grid.Row="2"/>
             <Button x:Name="previousPerson"
-                Command="{Binding Source={StaticResource vm}, Path=_previousPersonCommand}"
+                Command="{Binding _previousPersonCommand}"
                 CommandParameter="{Binding Path=_queueData.ConnectionEstablished}"
                 Content="Prev"
                 Style="{StaticResource ButtonStyle}"
                 Grid.Column="3"
                 Grid.Row="2"/>
             <ToggleButton x:Name="breakBtn"
-                Command="{Binding Source={StaticResource vm}, Path=_breakCommand}"
+                Command="{Binding _breakCommand}"
                 CommandParameter="{Binding Path=_queueData.ConnectionEstablished}"
                 IsChecked="{Binding ViewData.IsBreak}"
                 Content="Przerwa"
                 Style="{StaticResource ToggleButtonStyle}"
                 Grid.Column="5"
                 Grid.Row="2"/>
+            <Button Command="{Binding _connectCommand}"/>
 
             <Label Content="Nadpisz Numer:"
                Style="{StaticResource LabelAlignmentInGrid}"
@@ -160,7 +161,7 @@
                 </TextBox.InputBindings>
             </TextBox>
             <Button x:Name="forceQueueSubmitBtn"
-                Command="{Binding Source={StaticResource vm}, Path=_forceNewPersonCommand}"
+                Command="{Binding _forceNewPersonCommand}"
                 CommandParameter="{Binding Path=_queueData.ConnectionEstablished}"
                 Content="Nadpisz!"
                 Style="{StaticResource ButtonStyle}"

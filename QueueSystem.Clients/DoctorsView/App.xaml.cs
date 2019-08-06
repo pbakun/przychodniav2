@@ -1,4 +1,5 @@
-﻿using DoctorsView.Interfaces;
+﻿using DoctorsView.API;
+using DoctorsView.Interfaces;
 using DoctorsView.Models;
 using DoctorsView.Models.Authenticaton;
 using DoctorsView.View;
@@ -28,15 +29,18 @@ namespace DoctorsView
             //Create custom principal with an anonymous identity
             CustomPrincipal customPrincipal = new CustomPrincipal();
             AppDomain.CurrentDomain.SetThreadPrincipal(customPrincipal);
-
+            IocKernel.Initialize(new IocConfiguration());
             base.OnStartup(e);
 
+
+            IView doctorsWindow = new DoctorsWindow(new DoctorsWindowVM(new QueueServiceAPI()));
+            doctorsWindow.Show();
 
             //Show login view
             //LoginVM VM = new LoginVM(new AuthenticationService());
             //IView loginWindow = new LoginWindow(VM);
             //loginWindow.Show();
-            
+
         }
     }
 }
