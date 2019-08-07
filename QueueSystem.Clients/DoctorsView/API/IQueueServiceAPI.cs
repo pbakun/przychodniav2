@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Threading.Tasks;
 using DoctorsView.Models;
 
 namespace DoctorsView.API
@@ -13,5 +14,6 @@ namespace DoctorsView.API
         void SetData(QueueData queueData, User user);
         void PreviousPerson();
         void SendAdditionalMessage(string additionalMessage);
+        Task<User> FindUser(string username, string password);
     }
 }

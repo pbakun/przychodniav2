@@ -65,7 +65,7 @@ namespace DoctorsView.ViewModels
             ViewData = new DoctorsViewData();
 
             _queueData.PropertyChanged += _queueData_PropertyChanged;
-
+            
             //Generate UI stuff for designing xaml
             if (DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()))
             {

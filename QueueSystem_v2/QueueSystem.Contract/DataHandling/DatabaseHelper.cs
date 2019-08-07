@@ -11,6 +11,7 @@ namespace QueueSystem.Contract.DataHandling
     {
         public static readonly string dbFile = Path.Combine(Environment.CurrentDirectory, "QueueData.db3");
 
+
         public static bool Insert<T>(T item)
         {
             bool result = false;

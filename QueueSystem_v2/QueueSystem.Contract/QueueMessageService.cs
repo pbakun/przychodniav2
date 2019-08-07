@@ -230,12 +230,34 @@ namespace QueueSystem.Contract
 
         public User CheckUser(string username, string password)
         {
-            throw new NotImplementedException();
+            using (SQLiteConnection conn = new SQLiteConnection(DatabaseHelper.dbFile))
+            {
+                conn.CreateTable<User>();
+                User user = conn.Table<User>().Where(u => u.Login == username && u.Password == password).FirstOrDefault();
+                if(user!=null)
+                    return user;
+            }
+
+            return null;
         }
 
         public bool RegisterUser(User user)
         {
-            throw new NotImplementedException();
+            using (SQLiteConnection conn = new SQLiteConnection(DatabaseHelper.dbFile))
+            {
+                conn.CreateTable<User>();
+                var existingUsers = conn.Table<User>().Where(u => u.Login == user.Login || u.Email == user.Email).Count();
+                if (existingUsers > 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    conn.Insert(user);
+                    return true;
+                }   
+            }
+            
         }
     }
 }

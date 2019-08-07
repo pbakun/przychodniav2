@@ -54,7 +54,7 @@ namespace DoctorsView.API
 
         public QueueServiceAPI()
         {
-            
+            InitializeConnection();
         }
 
         public void SetData(QueueData queueData, User user)
@@ -62,7 +62,7 @@ namespace DoctorsView.API
             _queueData = queueData;
             //QueueData = new QueueDataBuilder().WithUserInitials(String.Concat(_user.FirstName.First(), _user.LastName.First())).WithRoomNo(12).Build();
             _user = user;
-            InitializeConnection();
+            
         }
 
         private void InitializeConnection()
@@ -247,6 +247,15 @@ namespace DoctorsView.API
             }
 
         }
+
+        #region Authorization
+
+        public async Task<User> FindUser(string username, string password)
+        {
+            return await (_QueueMessage.CheckUserAsync(username, password)) as User;
+        }
+
+        #endregion
 
         #region LiveBit handling
         private System.Timers.Timer LiveBitTimer;
