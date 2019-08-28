@@ -250,9 +250,20 @@ namespace DoctorsView.API
 
         #region Authorization
 
-        public async Task<User> FindUser(string username, string password)
+        public void FindUser(string username, string password)
         {
-            return await (_QueueMessage.CheckUserAsync(username, password)) as User;
+            _QueueMessage.CheckUserAsync(username, password);
+            
+        }
+
+        public bool RegisterUser(User newUser)
+        {
+            var user = newUser as QueueSystemServiceReference.User;
+
+            if (connectionStatus)
+                _QueueMessage.RegisterUser(user);
+
+            return false;
         }
 
         #endregion

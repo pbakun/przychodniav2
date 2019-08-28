@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DoctorsView.API;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -25,11 +26,25 @@ namespace DoctorsView.Models.Authenticaton
             }
         }
 
+        private readonly IQueueServiceAPI _queueServiceApi;
+
+        public AuthenticationService(IQueueServiceAPI queueServiceApi)
+        {
+            _queueServiceApi = queueServiceApi;
+        }
+
         public User AuthenticateUser(string username, string password)
         {
             //TODO
-
+            
             return new User();
+        }
+
+        public bool RegisterUser(User newUser)
+        {
+            newUser.Password = CalculateHash(newUser.Password, newUser.Login);
+            return _queueServiceApi.RegisterUser(newUser);
+
         }
 
         private string CalculateHash(string clearTextPassword, string salt)

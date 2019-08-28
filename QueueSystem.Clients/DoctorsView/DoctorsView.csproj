@@ -87,6 +87,7 @@
     <Compile Include="Commands\ConnectCommand.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Commands\DisconnectCommand.cs" />
+    <Compile Include="Commands\Pupa.cs" />
     <Compile Include="Commands\ForceNewPersonCommand.cs" />
     <Compile Include="Commands\NextPersonCommand.cs" />
     <Compile Include="Commands\PreviousPersonCommand.cs" />
@@ -173,9 +174,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Connected Services\QueueSystemServiceReference\DoctorsView.QueueSystemServiceReference.User.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
     <None Include="Connected Services\QueueSystemServiceReference\QueueMessageService.wsdl" />
     <None Include="Connected Services\QueueSystemServiceReference\QueueMessageService.xsd">
       <SubType>Designer</SubType>

@@ -32,12 +32,12 @@ namespace DoctorsView
             IocKernel.Initialize(new IocConfiguration());
             base.OnStartup(e);
 
-
-            IView doctorsWindow = new DoctorsWindow(new DoctorsWindowVM(new QueueServiceAPI()));
+            IQueueServiceAPI queueServiceApi = new QueueServiceAPI();
+            IView doctorsWindow = new DoctorsWindow(new DoctorsWindowVM(queueServiceApi));
             doctorsWindow.Show();
 
             //Show login view
-            //LoginVM VM = new LoginVM(new AuthenticationService());
+            //LoginVM VM = new LoginVM(new AuthenticationService(queueServiceApi));
             //IView loginWindow = new LoginWindow(VM);
             //loginWindow.Show();
 

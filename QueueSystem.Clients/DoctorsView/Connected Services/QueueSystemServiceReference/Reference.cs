@@ -416,10 +416,10 @@ namespace DoctorsView.QueueSystemServiceReference {
         System.Threading.Tasks.Task LivebitAsync(bool bit);
         
         [System.ServiceModel.OperationContractAttribute(Action="QueueSystem.Contract/Contract/CheckUser", ReplyAction="QueueSystem.Contract/Contract/CheckUserResponse")]
-        DoctorsView.QueueSystemServiceReference.User CheckUser(string username, string password);
+        void CheckUser(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="QueueSystem.Contract/Contract/CheckUser", ReplyAction="QueueSystem.Contract/Contract/CheckUserResponse")]
-        System.Threading.Tasks.Task<DoctorsView.QueueSystemServiceReference.User> CheckUserAsync(string username, string password);
+        System.Threading.Tasks.Task CheckUserAsync(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="QueueSystem.Contract/Contract/RegisterUser", ReplyAction="QueueSystem.Contract/Contract/RegisterUserResponse")]
         bool RegisterUser(DoctorsView.QueueSystemServiceReference.User user);
@@ -526,11 +526,11 @@ namespace DoctorsView.QueueSystemServiceReference {
             return base.Channel.LivebitAsync(bit);
         }
         
-        public DoctorsView.QueueSystemServiceReference.User CheckUser(string username, string password) {
-            return base.Channel.CheckUser(username, password);
+        public void CheckUser(string username, string password) {
+            base.Channel.CheckUser(username, password);
         }
         
-        public System.Threading.Tasks.Task<DoctorsView.QueueSystemServiceReference.User> CheckUserAsync(string username, string password) {
+        public System.Threading.Tasks.Task CheckUserAsync(string username, string password) {
             return base.Channel.CheckUserAsync(username, password);
         }
         

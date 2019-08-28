@@ -36,7 +36,7 @@ namespace QueueSystem.Contract
 
         #region Login
         [OperationContract]
-        User CheckUser(string username, string password);
+        void CheckUser(string username, string password);
 
         [OperationContract]
         bool RegisterUser(User user);

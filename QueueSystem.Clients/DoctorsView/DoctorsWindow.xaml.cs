@@ -27,7 +27,6 @@ using System.Windows.Shapes;
 
 namespace DoctorsView
 {
-
     public partial class DoctorsWindow : Window, IView
     {
         private readonly Models.User _user;

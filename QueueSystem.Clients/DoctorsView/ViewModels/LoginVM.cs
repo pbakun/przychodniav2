@@ -177,6 +177,20 @@ namespace DoctorsView.ViewModels
 
         private void Register(object parameter)
         {
+            object[] array = parameter as object[];
+            PasswordBox passwordBox = array[0] as PasswordBox;
+            PasswordBox confirmPassowrdBox = array[1] as PasswordBox;
+            string clearTextPassword = passwordBox.Password;
+            string clearTextConfirmPassword = confirmPassowrdBox.Password;
+
+            if (clearTextConfirmPassword.Equals(clearTextPassword))
+            {
+                User newUser = User4View;
+                newUser.Password = clearTextPassword;
+                _authenticationService.RegisterUser(newUser);
+                Login(passwordBox);
+            }
+
 
         }
 

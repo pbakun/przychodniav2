@@ -14,6 +14,7 @@ namespace DoctorsView.API
         void SetData(QueueData queueData, User user);
         void PreviousPerson();
         void SendAdditionalMessage(string additionalMessage);
-        Task<User> FindUser(string username, string password);
+        void FindUser(string username, string password);
+        bool RegisterUser(User newUser);
     }
 }

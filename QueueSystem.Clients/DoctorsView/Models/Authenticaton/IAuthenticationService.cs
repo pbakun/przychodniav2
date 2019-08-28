@@ -9,5 +9,7 @@ namespace DoctorsView.Models.Authenticaton
     public interface IAuthenticationService
     {
         User AuthenticateUser(string username, string password);
+
+        bool RegisterUser(User newUser);
     }
 }
